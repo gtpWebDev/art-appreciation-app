@@ -1,6 +1,4 @@
-import useGetBackendData from "./useGetBackendData";
-
-import { Navigate } from "react-router-dom";
+import useGetBackendData from "../../../hooks/useGetBackendData";
 
 const Dashboard = () => {
   // params not needed as JWT _id used

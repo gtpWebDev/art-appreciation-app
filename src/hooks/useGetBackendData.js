@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { axiosGet } from "./lib/axiosUtility";
+import { axiosGet } from "../lib/axiosUtility";
 
 /**
- * Custom hook for all get requests to the backend server
+ * Custom hook for single endpoint get requests to the backend server
+ * Likely need to add an updateTrigger
  */
 
 const useGetBackendData = (relativeUri) => {
@@ -16,14 +17,14 @@ const useGetBackendData = (relativeUri) => {
         const response = await axiosGet(relativeUri);
         if (response.success) {
           setData(response.data);
+          console.log("response", response);
         } else {
           setError(response.error);
         }
-        setLoading(false);
-        // console.log("Custom hook returning handled response");
       } catch (error) {
         // console.log("Custom hook returning unhandled response");
         setError(error);
+      } finally {
         setLoading(false);
       }
     };

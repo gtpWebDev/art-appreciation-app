@@ -1,7 +1,5 @@
 import "./App.css";
 
-import PropTypes from "prop-types";
-
 import { Outlet, Link } from "react-router-dom";
 
 import ScrollToTop from "./scrollToTop";
@@ -13,7 +11,7 @@ function App() {
       <TitleBar />
       <NavBar />
       <Sidebar />
-      <main>
+      <main style={{ border: "1px solid black" }}>
         <h2>Main Content</h2>
         <Outlet />
       </main>
