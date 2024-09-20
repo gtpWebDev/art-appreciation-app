@@ -6,6 +6,12 @@ const AccountAAIReport = () => {
   const accountStatsEndpoint = `/fxstats/owners/${ownerId}`;
 
   const { data, error, loading } = useGetBackendData(accountStatsEndpoint);
+
+  /**
+   * Have done 2 endpoints.
+   * Need to do aaiscore material view end points then come back to this.
+   */
+
   // data form:
   //     {
   //       "transaction_type": "secondary_purchase",
