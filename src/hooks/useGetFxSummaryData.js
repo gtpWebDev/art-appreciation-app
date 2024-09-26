@@ -18,6 +18,8 @@ const useGetFxSummaryData = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        console.log("Collecting FX Summary Page Data - process begun");
+
         const [fxStatsResponse, purchasesByMonthResponse] = await Promise.all([
           axiosGet(fxStatsEndpoint),
           axiosGet(purchasesByMonthEndpoint),

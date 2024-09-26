@@ -1,55 +1,89 @@
-import "./App.css";
+import { useState } from "react";
 
 import { Outlet, Link } from "react-router-dom";
 
+import NavBar from "./components/layouts/NavBar";
+import Footer from "./components/layouts/Footer";
+import Sidebar from "./components/layouts/Sidebar";
+
 import ScrollToTop from "./scrollToTop";
 
+/**
+ * App structure is minimalistic. Function navbar at top, no titlebar.
+ * Sidebar for links, always visible.
+ * Main content through react-router.
+ *
+ * NavBar should be 100% window width, Main max width xl
+ * Footer should stick to bottom (be pushed to end of page)
+ */
+
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+
+import { DrawerHeader } from "./components/styledComponents/div";
+import { Main } from "./components/styledComponents/main";
+
+/**
+ * Need to adjust structure to ensure footer is sticking at bottom
+ */
+
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen_cbfn = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose_cbfn = () => {
+    setOpen(false);
+  };
+
   return (
-    <>
-      <ScrollToTop />
-      <TitleBar />
-      <NavBar />
-      <Sidebar />
-      <main style={{ border: "1px solid black" }}>
-        <h2>Main Content</h2>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
+    // Ensures whole app stretches to full screen height
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
+      <CssBaseline />
+      <NavBar handleDrawerOpen_cbfn={handleDrawerOpen_cbfn} open={open} />
+      <Sidebar handleDrawerClose_cbfn={handleDrawerClose_cbfn} open={open} />
+      <Main open={open}>
+        <DrawerHeader />
+        {/* Pushes footer to bottom */}
+        <Container
+          maxWidth={false}
+          sx={{
+            flexGrow: 1,
+          }}
+          // Padding outside the Outlet page content
+          style={{ padding: "20px" }}
+        >
+          <Outlet />
+        </Container>
+        <Footer />
+      </Main>
+    </Box>
   );
 }
 
-const TitleBar = () => {
+const savedMain = () => {
   return (
-    <header>
-      <h1>Title Bar</h1>
-      <hr />
-    </header>
+    <Main open={open}>
+      <DrawerHeader />
+      {/* Pushes footer to bottom */}
+      <Container
+        maxWidth="{false}"
+        sx={{ flexGrow: 1 }}
+        style={{ backgroundColor: "yellow" }}
+      >
+        <Outlet />
+      </Container>
+      <Footer />
+    </Main>
   );
 };
-
-const NavBar = () => {
-  return (
-    <nav>
-      <h2>Nav Bar</h2>
-      <Link to="/">Return to home</Link>
-      <hr />
-    </nav>
-  );
-};
-
-const Sidebar = () => {
-  <aside>{/* Empty currently */}</aside>;
-};
-
-const Footer = () => {
-  return (
-    <footer>
-      <hr />
-      <h2>Footer</h2>
-    </footer>
-  );
-};
-
 export default App;
