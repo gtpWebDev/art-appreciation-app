@@ -7,7 +7,7 @@ import OverallAAIReport from "./components/pages/reports/OverallAAIReport";
 import TimePhasedAAIReport from "./components/pages/reports/TimePhasedAAIReport";
 import RankedAAIReport from "./components/pages/reports/RankedAAIReport";
 import AccountAAIReport from "./components/pages/reports/AccountAAIReport";
-import NftTransactionReport from "./components/pages/reports/NftTransactionReport";
+import NftTransactionReport from "./components/pages/reports/nftTransactionReport/NftTransactionReport";
 import ErrorPage from "./components/pages/ErrorPage/ErrorPage";
 
 // create the configuration for the router

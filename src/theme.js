@@ -14,6 +14,7 @@ import { red } from "@mui/material/colors";
  */
 
 const secondaryMain = "#a03e4d";
+const backgroundDefault = "#f7f4f4";
 
 // Create a theme instance.
 let theme = createTheme({
@@ -26,7 +27,7 @@ let theme = createTheme({
       main: "#a03e4d",
     },
     background: {
-      default: "#f7f4f4",
+      default: backgroundDefault,
       paper: "#ffffff",
     },
     text: {
@@ -40,6 +41,21 @@ let theme = createTheme({
   },
 
   components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: backgroundDefault,
+        },
+      },
+    },
+    MuiListSubHeader: {
+      styleOverrides: {
+        root: {
+          backgroundColor: backgroundDefault,
+        },
+      },
+    },
+
     // MuiPaper: {
     //   styleOverrides: {
     //     root: {

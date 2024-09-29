@@ -8,3 +8,5 @@ export const HEADER_JSON_CONFIG = {
     "Content-Type": "application/json",
   },
 };
+
+export const BACKEND_REQUEST_LIMIT = 20;
