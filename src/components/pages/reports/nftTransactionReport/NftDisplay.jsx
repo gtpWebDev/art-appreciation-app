@@ -15,11 +15,15 @@ import { LEFT_COLUMN_WIDTH } from "./NftTransactionReport";
 
 import { format } from "date-fns";
 
-export const NftDisplay = ({ nftDisplayData }) => {
+import { useFilterContext } from "./NftTransactionReport";
+
+export const NftDisplay = () => {
   /**
    * Displays the NFT image, and related information, only when filters have
    * been chosen to NFT level - id or iteration
    */
+
+  const { nft, filterInfoComplete } = useFilterContext();
 
   const getImgAddress = (thumbnailAddress) => {
     const removedIpfs = thumbnailAddress.replace("ipfs://", "");
@@ -27,15 +31,15 @@ export const NftDisplay = ({ nftDisplayData }) => {
   };
 
   return (
-    nftDisplayData.nft && (
+    filterInfoComplete && (
       <Paper elevation={6}>
         <Stack pt={1} pb={1}>
-          <NftHeader nftDisplayData={nftDisplayData} />
+          <NftHeader />
           <NftImageDisplay
             size={LEFT_COLUMN_WIDTH}
-            imgAddress={getImgAddress(nftDisplayData.nft.thumbnail)}
+            imgAddress={getImgAddress(nft.thumbnail)}
           />
-          <NftFooter nftDisplayData={nftDisplayData} />
+          <NftFooter />
         </Stack>
       </Paper>
     )
@@ -55,33 +59,33 @@ const NftImageDisplay = ({ imgAddress, size }) => {
   );
 };
 
-const NftHeader = ({ nftDisplayData }) => {
+const NftHeader = () => {
+  const { artist, collection } = useFilterContext();
+
   const fxArtistLink = (address) => `https://www.fxhash.xyz/u/${address}`;
   const fxCollectionLink = (id) => `https://www.fxhash.xyz/generative/${id}`;
 
   return (
     <>
       <Typography sx={{ fontStyle: "italic" }}>
-        <CompositeLinkUnderline
-          linkLoc={fxCollectionLink(nftDisplayData.collection.id)}
-        >
-          {nftDisplayData.collection.name}
+        <CompositeLinkUnderline linkLoc={fxCollectionLink(collection.id)}>
+          {collection.name}
         </CompositeLinkUnderline>
       </Typography>
 
       <Typography>
         by{" "}
-        <CompositeLinkUnderline
-          linkLoc={fxArtistLink(nftDisplayData.artist.address)}
-        >
-          {nftDisplayData.artist.alias}
+        <CompositeLinkUnderline linkLoc={fxArtistLink(artist.address)}>
+          {artist.alias}
         </CompositeLinkUnderline>
       </Typography>
     </>
   );
 };
 
-const NftFooter = ({ nftDisplayData }) => {
+const NftFooter = () => {
+  const { collection, nft } = useFilterContext();
+
   const monthText = (monthNumber) => {
     const date = new Date(2020, monthNumber - 1); // Create a date object for the month
     const monthName = format(date, "MMMM"); // 'MMMM' is the format for the full month name
@@ -91,12 +95,10 @@ const NftFooter = ({ nftDisplayData }) => {
   return (
     <>
       <Typography sx={{ fontStyle: "italic" }}>
-        Edition #{nftDisplayData.nft.collection_iteration} of{" "}
-        {nftDisplayData.collection.editions}
+        Edition #{nft.collection_iteration} of {collection.editions}
       </Typography>
       <Typography>
-        Created in {monthText(nftDisplayData.nft.mint_month)},{" "}
-        {nftDisplayData.nft.mint_year}
+        Created in {monthText(nft.mint_month)}, {nft.mint_year}
       </Typography>
     </>
   );

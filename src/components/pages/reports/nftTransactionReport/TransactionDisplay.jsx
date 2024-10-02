@@ -23,6 +23,8 @@ import {
 
 import { formatTransaction } from "../../../../utils/dataTidy";
 
+import { useFilterContext } from "./NftTransactionReport";
+
 // Define context for some table variables
 const TableContext = createContext({
   transactions: [],
@@ -35,21 +37,23 @@ const TableContext = createContext({
  * TransactionDisplay component - displays a list of transactions for a chosen Nft
  * @param {Object} nftData - array of nft transactions
  */
-const TransactionDisplay = ({ nftData }) => {
+const TransactionDisplay = () => {
+  const { nft } = useFilterContext();
+
   const [transactions, setTransactions] = useState(null);
 
   // collect transactions for the nft
   useEffect(() => {
     const getTransactions = async () => {
-      const response = await axiosGet(`/transactions/nfts/${nftData.id}`);
+      const response = await axiosGet(`/transactions/nfts/${nft.id}`);
       if (response.success) {
         setTransactions(response.data);
       } else {
         console.log("Nft iterations not available");
       }
     };
-    nftData ? getTransactions() : setTransactions(null);
-  }, [nftData]);
+    nft ? getTransactions() : setTransactions(null);
+  }, [nft]);
 
   return (
     transactions && (

@@ -5,7 +5,7 @@ import { axiosGet } from "../../../../lib/axiosUtility";
 
 import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
-// import Alert from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 
 import { NumberInput } from "../../../composites/NumberInput";
 
@@ -13,47 +13,63 @@ import { BACKEND_REQUEST_LIMIT } from "../../../../constants/backendRequests";
 
 import { LEFT_COLUMN_WIDTH } from "./NftTransactionReport";
 
-import { useFilterContext } from "./NftTransactionReport";
-
 /**
  * Task of each filter is to (optionally) receive an id to populate list choices
  * Then to callback the object related to the user selection
  */
 
-const NftFilters = () => {
-  const {
-    isArtistVisible,
-    isCollectionVisible,
-    isNftIterationVisible,
-    isNftIdVisible,
-  } = useFilterContext();
-
+const NftFilters = ({
+  artist,
+  collection,
+  visibility,
+  selectSearchMethod,
+  selectArtist,
+  selectCollection,
+  selectNftId,
+}) => {
   return (
     <Stack spacing={1}>
-      <SearchMethodSelector />
+      <SearchMethodSelector selectSearchMethod={selectSearchMethod} />
 
-      {isArtistVisible && <ArtistSelector />}
+      {visibility.artist && <ArtistSelector selectArtist={selectArtist} />}
 
-      {isCollectionVisible && <CollectionSelector />}
+      {visibility.collection && (
+        <CollectionSelector
+          artist={artist}
+          selectCollection={selectCollection}
+        />
+      )}
 
-      {isNftIdVisible && <NftIdSelector />}
+      {/* {nftIdFilterVisible && (
+            <Grid size={{ xs: 12 }} align="left">
+              <NftIdSelector selectNftId={selectNftId} />
+            </Grid>
+          )} */}
 
-      {isNftIterationVisible && <NftIterationSelector />}
+      {visibility.nftIteration && (
+        <NftIterationSelector
+          collection={collection}
+          selectNftId={selectNftId}
+        />
+      )}
     </Stack>
   );
 };
 
-export const SearchMethodSelector = () => {
-  // Search method information updated through context callback function
+/**
+ * SearchMethodSelector component - autocomplete function for selecting search method
+ * @param {selectSearchMethod} callback - function to handle selection of the search method
+ */
 
-  const { handleSearchMethodChange } = useFilterContext();
+export const SearchMethodSelector = ({ selectSearchMethod }) => {
+  // Simple autocomplete, passing back search method choice
 
   const searchMethodOptions = ["Artist", "Collection", "Nft"];
 
   const autocomplete = (
     <Autocomplete
       onChange={(event, newValue) => {
-        handleSearchMethodChange(newValue);
+        selectSearchMethod(newValue);
       }}
       disablePortal
       options={searchMethodOptions}
@@ -67,12 +83,12 @@ export const SearchMethodSelector = () => {
   return renderCommonGridFormatting(autocomplete);
 };
 
-export const ArtistSelector = () => {
-  // Visible when artist search method chosen
-  // Artist information updated through context callback function
+/**
+ * ArtistSelector component - autocomplete function for selecting artist
+ * @param {selectArtist} callback - function to handle selection of the artist
+ */
 
-  const { handleArtistChange } = useFilterContext();
-
+export const ArtistSelector = ({ selectArtist }) => {
   const [errorText, setErrorText] = useState(null);
   const [artistOptions, setArtistOptions] = useState([]);
 
@@ -84,10 +100,10 @@ export const ArtistSelector = () => {
         `/artists?alias=${newValue}&limit=${BACKEND_REQUEST_LIMIT}`
       );
       if (response.success) {
-        // add label but retain info
+        // map response to form required by autocomplete
         const optionsArray = response.data.map((artist) => ({
-          ...artist,
           label: artist.alias,
+          id: artist.id,
         }));
         setArtistOptions(optionsArray);
         setErrorText(null);
@@ -102,39 +118,43 @@ export const ArtistSelector = () => {
       "Artist", // label
       artistOptions,
       handleInputChange,
-      handleArtistChange,
+      selectArtist,
       false // user input autocomplete
     ),
     errorText
   );
 };
 
-export const CollectionSelector = () => {
+/**
+ * CollectionSelector component - autocomplete function for selecting collection
+ * @param {artist} callback - artist id - if null, component allows user to type in any collection text, otherwise constrains collections to those by the artist
+ * @param {selectCollection} callback - function to pass collection selection back to parent component
+ */
+
+export const CollectionSelector = ({ artist, selectCollection }) => {
   /**
    * Case 1 - receive artist - display and allow only relevant collections
    * Case 2 - no artist received - normal user autocomplete
    */
-
-  const { artist, handleCollectionChange } = useFilterContext();
 
   const [errorText, setErrorText] = useState(null);
   const [collectionOptions, setCollectionOptions] = useState([]);
 
   // If artist passed to component, get collections matching the artist
   useEffect(() => {
-    const getCollections = async () => {
-      const response = await axiosGet(`/artists/${artist.id}/collections`);
+    const getCollection = async () => {
+      const response = await axiosGet(`/artists/${artist}/collections`);
       if (response.success) {
         const optionsArray = response.data.map((coll) => ({
-          ...coll,
           label: coll.name,
+          id: coll.id,
         }));
         setCollectionOptions(optionsArray);
       } else {
         setErrorText("Not available");
       }
     };
-    if (artist) getCollections();
+    if (artist) getCollection();
   }, [artist]);
 
   // responsive text search
@@ -150,9 +170,9 @@ export const CollectionSelector = () => {
         `/collections?name=${newValue}&limit=${BACKEND_REQUEST_LIMIT}`
       );
       if (response.success) {
-        const optionsArray = response.data.map((coll) => ({
-          ...coll,
-          label: coll.name,
+        const optionsArray = response.data.map((artist) => ({
+          label: artist.name,
+          id: artist.id,
         }));
         setCollectionOptions(optionsArray);
         setErrorText(null);
@@ -169,7 +189,7 @@ export const CollectionSelector = () => {
             "Collection", // label
             collectionOptions,
             handleInputChange,
-            handleCollectionChange,
+            selectCollection,
             true // read only autocomplete
           ),
           errorText
@@ -179,53 +199,50 @@ export const CollectionSelector = () => {
           "Collection", // label
           collectionOptions,
           handleInputChange,
-          handleCollectionChange,
+          selectCollection,
           false // user input autocomplete
         ),
         errorText
       );
 };
 
-export const NftIterationSelector = () => {
+export const NftIterationSelector = ({ collection, selectNftId }) => {
   /**
-   * Component rendered when collection method, or artist is chosen:
+   * Component rendered only when collection is chosen.
    *  - receive and display collection nfts
    *  - user autocomplete available
-   *  - nft information updated through context callback function
    */
-
-  const { collection, handleNftChange } = useFilterContext();
 
   const [errorText, setErrorText] = useState(null);
   const [nftIterationOptions, setNftIterationOptions] = useState([]);
 
-  // if collection exists, get matching nfts
+  // if artist exists, get nfts matching the collection
   useEffect(() => {
-    const getNfts = async () => {
+    const getCollection = async () => {
       const response = await axiosGet(
-        `/collections/${collection.id}/nfts?limit=${BACKEND_REQUEST_LIMIT}`
+        `/collections/${collection}/nfts?limit=${BACKEND_REQUEST_LIMIT}`
       );
       if (response.success) {
         const optionsArray = response.data.map((nft) => ({
-          ...nft,
           label: nft.collection_iteration.toString(),
+          id: nft.id,
         }));
         setNftIterationOptions(optionsArray);
       } else {
         setErrorText("Nft iterations not available");
       }
     };
-    if (collection) getNfts();
+    getCollection();
   }, [collection]);
 
   const handleInputChange = async (event, newValue) => {
     const response = await axiosGet(
-      `/collections/${collection.id}/nfts?limit=${BACKEND_REQUEST_LIMIT}&iteration=${newValue}`
+      `/collections/${collection}/nfts?limit=${BACKEND_REQUEST_LIMIT}&iteration=${newValue}`
     );
     if (response.success) {
       const optionsArray = response.data.map((nft) => ({
-        ...nft,
         label: nft.collection_iteration.toString(),
+        id: nft.id,
       }));
       setNftIterationOptions(optionsArray);
       setErrorText(
@@ -241,56 +258,44 @@ export const NftIterationSelector = () => {
       "Nft iteration", // label
       nftIterationOptions,
       handleInputChange,
-      handleNftChange,
+      selectNftId,
       false // user input autocomplete
     ),
     errorText
   );
 };
 
-export const NftIdSelector = () => {
-  // Visible when nft search method chosen
-  // Nft information updated through context callback function
+export const NftIdSelector = (props) => {
+  const collectionOptions = [
+    { label: "1", id: 1 },
+    { label: "2", id: 2 },
+  ];
 
-  const { handleNftChange } = useFilterContext();
-
-  const [errorText, setErrorText] = useState(null);
-  const [nftOptions, setNftIdOptions] = useState([]);
-
-  // responsive search, showing options each time user changes nft text
-  const handleInputChange = async (event, newValue) => {
-    // search filter on typing 3 characters
-    if (newValue.length >= 3) {
-      const response = await axiosGet(
-        `/nfts?id=${newValue}&limit=${BACKEND_REQUEST_LIMIT}`
-      );
-      if (response.success) {
-        // map response to form required by autocomplete
-        const optionsArray = response.data.map((nft) => ({
-          ...nft,
-          label: nft.id,
-        }));
-        setNftIdOptions(optionsArray);
-        setErrorText(null);
-      } else {
-        setErrorText("Nft information not available");
-      }
-    }
-  };
-
-  return renderCommonGridFormatting(
-    renderAutocomplete(
-      "Nft id", // label
-      nftOptions,
-      handleInputChange,
-      handleNftChange,
-      false // user input autocomplete
-    ),
-    errorText
+  return (
+    <>
+      <Autocomplete
+        onChange={(event, newValue) => {
+          props.selectNftId(newValue);
+        }}
+        disablePortal
+        options={collectionOptions}
+        sx={{
+          width: LEFT_COLUMN_WIDTH,
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Nft id"
+            type="number"
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          />
+        )}
+      />
+    </>
   );
 };
 
-const renderCommonGridFormatting = (autocomplete) => {
+const renderCommonGridFormatting = (autocomplete, errorText) => {
   return (
     <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} align="left">
       <Grid display="flex" alignItems="center" size="auto">
@@ -322,7 +327,7 @@ const renderAutocomplete = (
   return (
     <Autocomplete
       onChange={(event, newValue) => {
-        selectCallback(newValue);
+        selectCallback(newValue ? newValue.id : null);
       }}
       onInputChange={!isReadOnly ? handleInputChange : null} // accessible only if not read only
       disablePortal
@@ -359,7 +364,7 @@ const renderNumberAutocomplete = (
   return (
     <Autocomplete
       onChange={(event, newValue) => {
-        selectCallback(newValue);
+        selectCallback(newValue ? newValue.id : null);
       }}
       onInputChange={!isReadOnly ? handleInputChange : null} // accessible only if not read only
       disablePortal
