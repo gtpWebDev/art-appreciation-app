@@ -55,56 +55,41 @@ let theme = createTheme({
         },
       },
     },
+    /* This section required to reduce the height of the autocomplete and internal text field */
+    // ***Start of autocomplete height adjustment***
+    MuiAutocomplete: {
+      styleOverrides: {
+        inputRoot: {
+          height: "46px", // Set default height for the input root
+          "& .MuiInputBase-input": {
+            height: "100%", // Ensure the input fills the height of the root
+            padding: "0 14px", // Adjust padding if needed
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          transform: "translate(14px, 12px) scale(1)", // Adjust the transform for centering
+          "&.Mui-focused": {
+            transform: "translate(14px, -6px) scale(0.75)", // Position when focused
+          },
+          "&.MuiInputLabel-shrink": {
+            transform: "translate(14px, -6px) scale(0.75)", // Position when shrunk (after input)
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          height: "46px", // Set default height for all TextFields
+        },
+      },
+    },
+    // ***End of autocomplete height adjustment***
 
-    // MuiPaper: {
-    //   styleOverrides: {
-    //     root: {
-    //       // backgroundColor: "transparent",
-    //       backgroundColor: primaryMain,
-    //     },
-    //   },
-    // },
-    // MuiButton: {
-    //   styleOverrides: {
-    //     // seems to work with specificity
-    //     root: {
-    //       // all button types
-    //       disableRipple: true, // bit old fashioned
-    //       borderRadius: 10,
-    //     },
-    //     containedPrimary: {
-    //       // only override for contained and primary instances of button
-    //       borderRadius: 10,
-    //     },
-    //   },
-    //   // add your own variants
-    //   variants: [
-    //     {
-    //       props: {
-    //         variant: "square-red",
-    //       },
-    //       style: {
-    //         backgroundColor: red[500],
-    //         color: "#ffffff",
-    //         borderRadius: 1,
-    //       },
-    //     },
-    //   ],
-    // },
-    // MuiFab: {
-    //   defaultProps: {
-    //     size: "medium",
-    //   },
-    //   styleOverrides: {
-    //     // use a function to change how existing properties such as "size" work
-    //     root: ({ state }) => ({
-    //       ...(state.size === "large" && {
-    //         width: 60,
-    //         height: 60,
-    //       }),
-    //     }),
-    //   },
-    // },
     // Change stack default alignment to center
     // MuiStack: {
     //   defaultProps: {

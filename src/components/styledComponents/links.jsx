@@ -18,7 +18,12 @@ export const CompositeLink = ({ children, linkLoc }) => {
 
 export const CompositeLinkUnderline = ({ children, linkLoc }) => {
   return (
-    <StyledLinkUnderline component={RouterLink} to={linkLoc}>
+    <StyledLinkUnderline
+      component={RouterLink}
+      to={linkLoc}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {children}
     </StyledLinkUnderline>
   );
@@ -41,7 +46,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }));
 
 const StyledLinkNoUnderline = styled(Link)(({ theme }) => ({
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.primary.main,
   textDecoration: "none",
   "&:hover": {
     textDecoration: "none",
@@ -49,6 +54,6 @@ const StyledLinkNoUnderline = styled(Link)(({ theme }) => ({
 }));
 
 const StyledLinkUnderline = styled(Link)(({ theme }) => ({
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.secondary.main,
   textDecoration: "underline",
 }));

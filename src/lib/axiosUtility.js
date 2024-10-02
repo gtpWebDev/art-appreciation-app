@@ -119,7 +119,7 @@ export const axiosGet = async (relativeUri) => {
       data: response.data.data,
       error: null,
     };
-    console.log("axiosGet returning successResponse", successResponse);
+    // console.log("axiosGet returning successResponse", successResponse);
     return successResponse;
   } catch (error) {
     console.log("AxiosError", error);

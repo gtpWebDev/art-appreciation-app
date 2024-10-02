@@ -4,11 +4,57 @@ import TextField from "@mui/material/TextField";
 import { axiosGet } from "../../../../lib/axiosUtility";
 
 import Grid from "@mui/material/Grid2";
+import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 
 import { NumberInput } from "../../../composites/NumberInput";
 
 import { BACKEND_REQUEST_LIMIT } from "../../../../constants/backendRequests";
+
+import { LEFT_COLUMN_WIDTH } from "./NftTransactionReport";
+
+/**
+ * Task of each filter is to (optionally) receive an id to populate list choices
+ * Then to callback the object related to the user selection
+ */
+
+const NftFilters = ({
+  artist,
+  collection,
+  visibility,
+  selectSearchMethod,
+  selectArtist,
+  selectCollection,
+  selectNftId,
+}) => {
+  return (
+    <Stack spacing={1}>
+      <SearchMethodSelector selectSearchMethod={selectSearchMethod} />
+
+      {visibility.artist && <ArtistSelector selectArtist={selectArtist} />}
+
+      {visibility.collection && (
+        <CollectionSelector
+          artist={artist}
+          selectCollection={selectCollection}
+        />
+      )}
+
+      {/* {nftIdFilterVisible && (
+            <Grid size={{ xs: 12 }} align="left">
+              <NftIdSelector selectNftId={selectNftId} />
+            </Grid>
+          )} */}
+
+      {visibility.nftIteration && (
+        <NftIterationSelector
+          collection={collection}
+          selectNftId={selectNftId}
+        />
+      )}
+    </Stack>
+  );
+};
 
 /**
  * SearchMethodSelector component - autocomplete function for selecting search method
@@ -20,19 +66,21 @@ export const SearchMethodSelector = ({ selectSearchMethod }) => {
 
   const searchMethodOptions = ["Artist", "Collection", "Nft"];
 
-  return (
-    <>
-      <Autocomplete
-        onChange={(event, newValue) => {
-          selectSearchMethod(newValue);
-        }}
-        disablePortal
-        options={searchMethodOptions}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Search by..." />}
-      />
-    </>
+  const autocomplete = (
+    <Autocomplete
+      onChange={(event, newValue) => {
+        selectSearchMethod(newValue);
+      }}
+      disablePortal
+      options={searchMethodOptions}
+      sx={{
+        width: LEFT_COLUMN_WIDTH,
+      }}
+      renderInput={(params) => <TextField {...params} label="Search by..." />}
+    />
   );
+
+  return renderCommonGridFormatting(autocomplete);
 };
 
 /**
@@ -231,7 +279,9 @@ export const NftIdSelector = (props) => {
         }}
         disablePortal
         options={collectionOptions}
-        sx={{ width: 300 }}
+        sx={{
+          width: LEFT_COLUMN_WIDTH,
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -251,9 +301,9 @@ const renderCommonGridFormatting = (autocomplete, errorText) => {
       <Grid display="flex" alignItems="center" size="auto">
         {autocomplete}
       </Grid>
-      <Grid display="flex" alignItems="center" size={{ xs: 12, md: "grow" }}>
+      {/* <Grid display="flex" alignItems="center" size={{ xs: 12, md: "grow" }}>
         {errorText ? <Alert severity="error">{errorText}</Alert> : <></>}
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };
@@ -282,7 +332,9 @@ const renderAutocomplete = (
       onInputChange={!isReadOnly ? handleInputChange : null} // accessible only if not read only
       disablePortal
       options={options}
-      sx={{ width: 300 }}
+      sx={{
+        width: LEFT_COLUMN_WIDTH,
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -317,7 +369,7 @@ const renderNumberAutocomplete = (
       onInputChange={!isReadOnly ? handleInputChange : null} // accessible only if not read only
       disablePortal
       options={options}
-      sx={{ width: 300 }}
+      sx={{ width: LEFT_COLUMN_WIDTH }}
       renderInput={(params) => (
         <NumberInput
           params={params}
@@ -329,3 +381,5 @@ const renderNumberAutocomplete = (
     />
   );
 };
+
+export default NftFilters;

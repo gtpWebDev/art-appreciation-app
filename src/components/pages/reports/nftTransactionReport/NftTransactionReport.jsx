@@ -1,150 +1,222 @@
-import useGetBackendData from "../../../../hooks/useGetBackendData";
-import Loading from "../../../composites/Loading";
-
 import { useState } from "react";
+import { axiosGet } from "../../../../lib/axiosUtility";
 
-import Grid from "@mui/material/Grid2";
-import Typography from "@mui/material/Typography";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-
-import {
-  SearchMethodSelector,
-  ArtistSelector,
-  CollectionSelector,
-  NftIterationSelector,
-  NftIdSelector,
-} from "./nftFilters";
-
+// Constants
 import {
   SEARCH_METHOD_ARTIST,
   SEARCH_METHOD_COLLECTION,
   SEARCH_METHOD_NFT,
 } from "../../../../constants/uiConstants";
 
+// Material UI components
+import Grid from "@mui/material/Grid2";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+
+// Styled components
+import { ReversePaper } from "../../../styledComponents/paper";
+
+// Custom hooks
+import useVisibility from "../../../../hooks/useFilterVisibility";
+import useNftDisplayData from "../../../../hooks/useNftDisplayData";
+
+// Subcomponents
+import NftFilters from "./NftFilters";
+import TransactionDisplay from "./TransactionDisplay";
+import NftDisplay from "./NftDisplay";
+
+// defined collumn eidht, used in subcomponents
+export const LEFT_COLUMN_WIDTH = 300;
+
 const NftTransactionReport = () => {
-  // filter states
+  // custom hook to manage nftDisplayData object
+  const { nftDisplayData, updateNftDisplayData } = useNftDisplayData({
+    artist: null,
+    collection: null,
+    nft: null,
+  });
+
+  // Filter states
   const [artist, setArtist] = useState(null);
   const [collection, setCollection] = useState(null);
-  const [nftIteration, setNftIteration] = useState(null);
   const [nftId, setNftId] = useState(null);
 
-  const resetFilters = () => {
+  // Visibility hook which slightly tidies visibility management
+  const [visibility, updateVisibility] = useVisibility({
+    searchMethod: true,
+    artist: false,
+    collection: false,
+    nftIteration: false,
+    nftId: false,
+  });
+
+  // Callback functions for search filters
+  const selectSearchMethod = (method) => {
+    updateVisibility("artist", method === SEARCH_METHOD_ARTIST);
+    updateVisibility("collection", method === SEARCH_METHOD_COLLECTION);
+    updateVisibility("nftId", method === SEARCH_METHOD_NFT);
+    updateVisibility("nftIteration", false);
     setArtist(null);
     setCollection(null);
-    setNftIteration(null);
     setNftId(null);
+
+    updateNftDisplayData("artist", null);
+    updateNftDisplayData("collection", null);
+    updateNftDisplayData("nft", null);
   };
 
-  // filter visibility
-  const [artistFilterVisible, setArtistFilterVisible] = useState(false);
-  const [collectionFilterVisible, setCollectionFilterVisible] = useState(false);
-  const [nftIdFilterVisible, setNftIdFilterVisible] = useState(false);
-  const [nftIterationFilterVisible, setNftIterationFilterVisible] =
-    useState(false);
+  // selecting an artist, make collection available
+  // removing an artist, remove collection and nft iteration
+  const selectArtist = async (artist) => {
+    setArtist(artist);
+    updateVisibility("collection", artist ? true : false);
+    if (!artist) {
+      updateVisibility("nftIteration", false);
+      setCollection(null);
+      setNftId(null);
+    }
 
-  const [displayNftData, setDisplayNftData] = useState(false);
-
-  //  Search method selection resets filter contents and displays relevant filter
-  const [searchMethod, setSearchMethod] = useState(null);
-  const selectSearchMethod = (method) => {
-    setSearchMethod(method);
-    setArtistFilterVisible(method === SEARCH_METHOD_ARTIST);
-    setCollectionFilterVisible(method === SEARCH_METHOD_COLLECTION);
-    setNftIdFilterVisible(method === SEARCH_METHOD_NFT);
-    setNftIterationFilterVisible(false); // only available through artist/collection filters
-    resetFilters();
+    if (artist) {
+      const response = await axiosGet(`/artists/${artist}`);
+      if (response.success) {
+        updateNftDisplayData("artist", response.data);
+      } else {
+        console.log("Error collecting nft artist from backend", response.error);
+      }
+    } else {
+      // Have to improve this!
+      updateNftDisplayData("artist", null);
+      updateNftDisplayData("collection", null);
+      updateNftDisplayData("nft", null);
+    }
   };
 
-  // Artist selected - display collection filter
-  const selectArtist = (artist) => {
-    setArtist(artist); // Database Artist id
-    setCollectionFilterVisible(artist ? true : false);
-    setNftIterationFilterVisible(artist ? true : false);
-  };
-
-  // Collection selected - display nft filter option
-  const selectCollection = (coll) => {
-    console.log("coll", coll);
+  // selecting a collection, make nft iteration available
+  // removing a collection, remove nft iteration
+  const selectCollection = async (coll) => {
     setCollection(coll);
-    setNftIterationFilterVisible(coll ? true : false);
+    updateVisibility("nftIteration", coll ? true : false);
+    setNftId(null);
+
+    if (coll) {
+      const response = await axiosGet(`/collections/${coll}`);
+      if (response.success) {
+        updateNftDisplayData("collection", response.data);
+      } else {
+        console.log(
+          "Error collecting collection information from backend",
+          response.error
+        );
+      }
+    } else {
+      updateNftDisplayData("collection", null);
+      updateNftDisplayData("nft", null);
+    }
   };
 
-  // to do
-  // const selectNftIteration = (iter) => {
-  //   setNftIteration(iter);
-  //   console.log("DISPLAY THE NFT INFO!");
-  //   setDisplayNftData(iter ? true : false);
-  // };
-  const selectNftId = (id) => {
+  // selecting an nft (iteration or id uses this function)
+  const selectNftId = async (id) => {
     setNftId(id);
-    console.log("DISPLAY THE NFT INFO!");
-    setDisplayNftData(id ? true : false);
+    if (id) {
+      const response = await axiosGet(`/nfts/${id}`);
+      if (response.success) {
+        updateNftDisplayData("nft", response.data);
+      } else {
+        console.log(
+          "Error collecting collection information from backend",
+          response.error
+        );
+      }
+    } else {
+      updateNftDisplayData("nft", null);
+    }
   };
 
   return (
     <>
+      {/* Main container - full width */}
       <Grid container spacing={2} align="center">
-        <Grid size={{ xs: 12 }} align="left">
-          <SearchMethodSelector selectSearchMethod={selectSearchMethod} />
+        {/* Header - full width*/}
+        <Grid size={12} mb={3}>
+          <ReportHeader />
         </Grid>
-        {artistFilterVisible && (
-          <Grid size={{ xs: 12 }} align="left">
-            <ArtistSelector selectArtist={selectArtist} />
-          </Grid>
-        )}
-        {collectionFilterVisible && (
-          <Grid size={{ xs: 12 }} align="left">
-            <CollectionSelector
-              artist={artist}
-              selectCollection={selectCollection}
-            />
-          </Grid>
-        )}
-        {/* {nftIdFilterVisible && (
-          <Grid size={{ xs: 12 }} align="left">
-            <NftIdSelector selectNftId={selectNftId} />
-          </Grid>
-        )} */}
-        {nftIterationFilterVisible && (
-          <Grid size={{ xs: 12 }} align="left">
-            <NftIterationSelector
-              selectNftId={selectNftId}
-              collection={collection}
-            />
-          </Grid>
-        )}
 
-        {displayNftData && (
-          <NftDisplay artist={artist} collection={collection} nftId={nftId} />
-        )}
+        {/* Left column is the filters and the nft display - no size, natural width */}
+        <Grid>
+          <LeftColumn
+            artist={artist}
+            collection={collection}
+            visibility={visibility}
+            selectSearchMethod={selectSearchMethod}
+            selectArtist={selectArtist}
+            selectCollection={selectCollection}
+            selectNftId={selectNftId}
+            nftDisplayData={nftDisplayData}
+          />
+        </Grid>
+        {/* Transaction display move to new line for xs and sm */}
+        <Grid xs={12} md align="center">
+          <TransactionDisplay nftData={nftDisplayData.nft} />
+        </Grid>
       </Grid>
     </>
   );
 };
 
-const NftDisplay = ({ artist, collection, nftId }) => {
+const LeftColumn = ({
+  artist,
+  collection,
+  visibility,
+  selectSearchMethod,
+  selectArtist,
+  selectCollection,
+  selectNftId,
+  nftDisplayData,
+}) => {
   return (
-    <Grid size={{ xs: 12 }} align="center">
-      <Grid container align="center">
-        <Grid size={{ xs: 12, md: 6, lg: 3 }}>
-          Collection information
-          <br />
-          Artist id: {artist}
-          <br />
-          Collection: {collection}
-        </Grid>
-        <Grid size={{ xs: 12, md: 6, lg: 3 }}>Image of Collection </Grid>
-        <Grid size={{ xs: 12, md: 6, lg: 3 }}>
-          Nft information
-          <br />
-          Nft id: {nftId}
-          <br />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6, lg: 3 }}>Image of Nft </Grid>
-        <Grid size={{ xs: 12 }}>Nft Data </Grid>
+    <Stack spacing={3}>
+      <NftFilters
+        artist={artist}
+        collection={collection}
+        visibility={visibility}
+        selectSearchMethod={selectSearchMethod}
+        selectArtist={selectArtist}
+        selectCollection={selectCollection}
+        selectNftId={selectNftId}
+      />
+      <NftDisplay nftDisplayData={nftDisplayData} />
+    </Stack>
+  );
+};
+
+const ReportHeader = () => {
+  return (
+    <ReversePaper elevation={6} sx={{ alignItems: "center" }}>
+      <Typography
+        component="h3"
+        variant="h3"
+        color="primary.contrastText"
+        sx={{ padding: "20px 0" }}
+        align="center"
+      >
+        Individual Nft Report
+      </Typography>
+      {/* Remove when design complete */}
+      <Grid
+        size={12}
+        color="black"
+        backgroundColor={{
+          xs: "red",
+          sm: "orange",
+          md: "yellow",
+          lg: "green",
+          xl: "purple",
+        }}
+        mb={3}
+      >
+        xs red, sm orange, md yellow, lg green, xl purple
       </Grid>
-    </Grid>
+    </ReversePaper>
   );
 };
 

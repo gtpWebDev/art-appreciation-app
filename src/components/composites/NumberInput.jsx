@@ -9,7 +9,6 @@ import TextField from "@mui/material/TextField";
  */
 
 export const NumberInput = ({ params, label, placeholder, isReadOnly }) => {
-  console.log("params", params);
   return (
     <TextField
       {...params}
