@@ -2,9 +2,13 @@ import TableCell from "@mui/material/TableCell";
 
 import { styled } from "@mui/system";
 
-export const StyledTableHeaderCell = ({ headerText, sx }) => {
-  return <TableHeaderCellStyling sx={sx}>{headerText}</TableHeaderCellStyling>;
+export const StyledTableHeaderCell = ({ children, sx }) => {
+  return <TableHeaderCellStyling sx={sx}>{children}</TableHeaderCellStyling>;
 };
+
+// export const StyledTableHeaderCell = ({ headerText, sx }) => {
+//   return <TableHeaderCellStyling sx={sx}>{headerText}</TableHeaderCellStyling>;
+// };
 
 const TableHeaderCellStyling = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
@@ -16,19 +20,14 @@ export const StyledTableCell = ({ text, sx }) => {
   return <TableCellStyling sx={sx}>{text}</TableCellStyling>;
 };
 
-const TableCellStyling = styled(TableCell)(({ theme }) => ({
+const TableCellStyling = styled(TableCell)(({}) => ({
   textAlign: "right",
-  // fontSize: "0.875rem", // Default font size for smaller screens
-  // [theme.breakpoints.up("sm")]: {
-  //   fontSize: "1rem", // For small and larger screens
-  // },
-  // [theme.breakpoints.up("md")]: {
-  //   fontSize: "1rem", // For medium and larger screens
-  // },
-  // [theme.breakpoints.up("lg")]: {
-  //   fontSize: "1rem", // For large and larger screens
-  // },
-  // [theme.breakpoints.up("xl")]: {
-  //   fontSize: "1.25rem", // For large and larger screens
-  // },
+}));
+
+export const StyledTableCellLeftAlign = ({ text, sx }) => {
+  return <TableCellStylingLeftAlign sx={sx}>{text}</TableCellStylingLeftAlign>;
+};
+
+const TableCellStylingLeftAlign = styled(TableCell)(({}) => ({
+  textAlign: "left",
 }));

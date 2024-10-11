@@ -61,3 +61,55 @@ export const formatTransaction = (trans) => {
     normalisedScore,
   };
 };
+
+// number -> $1,234
+export const formatDollarCurrency = (value, decimalPoints) => {
+  const num = Number(value);
+  const formattedValue = Math.abs(num).toLocaleString("en-US", {
+    minimumFractionDigits: decimalPoints,
+    maximumFractionDigits: decimalPoints,
+  });
+
+  return num < 0 ? `-$${formattedValue}` : `$${formattedValue}`;
+};
+
+// number -> 1,234 tz
+export const formatTezosCurrency = (value, decimalPoints) => {
+  const num = Number(value);
+  return `${num.toLocaleString("en-US", {
+    minimumFractionDigits: decimalPoints,
+    maximumFractionDigits: decimalPoints,
+  })} tz`;
+};
+
+// number -> 1,234
+export const formatNumber = (value, decimalPoints) => {
+  const num = Number(value);
+  return num.toLocaleString("en-US", {
+    minimumFractionDigits: decimalPoints,
+    maximumFractionDigits: decimalPoints,
+  });
+};
+
+export const formatDateTime = (timestamp) => {
+  return format(parseISO(timestamp), "dd-MMM-yy");
+};
+
+export const formatDetailedDateTime = (timestamp) => {
+  return format(parseISO(timestamp), "dd-MMM-yy, HH:mm");
+};
+
+export const formatTransactionType = (transType) => {
+  switch (transType) {
+    case "primary_purchase":
+      return "Primary Purchase";
+    case "secondary_purchase":
+      return "Secondary Purchase";
+    case "listing":
+      return "Listing";
+    case "delisting":
+      return "Cancel Listing";
+    default:
+      return "";
+  }
+};

@@ -33,12 +33,12 @@ import theme from "../../theme";
 
 const drilldownListItems = [
   {
-    text: "Account Owners",
-    linkLoc: "/reports/accountAAIReport",
+    text: "Account Owner",
+    linkLoc: "/reports/accountOwnerReport",
     icon: <OwnerIcon />,
   },
   {
-    text: "Nfts",
+    text: "Nft",
     linkLoc: "/reports/nftTransactionReport",
     icon: <NftIcon />,
   },

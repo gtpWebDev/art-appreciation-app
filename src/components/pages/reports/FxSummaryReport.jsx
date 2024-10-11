@@ -1,10 +1,10 @@
 import useGetFxSummaryData from "../../../hooks/useGetFxSummaryData";
-import Loading from "../../composites/Loading";
+import LoadingCircle from "../../composites/LoadingCircle";
 
 const FxSummaryReport = () => {
   const { data, error, loading } = useGetFxSummaryData();
 
-  if (loading) return <Loading />;
+  if (loading) return <LoadingCircle />;
 
   // Not authorised. Would like a tidier solution, but this does work
   if (error) return <p>error</p>;

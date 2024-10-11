@@ -6,7 +6,7 @@ import FxSummaryReport from "./components/pages/reports/FxSummaryReport";
 import OverallAAIReport from "./components/pages/reports/OverallAAIReport";
 import TimePhasedAAIReport from "./components/pages/reports/TimePhasedAAIReport";
 import RankedAAIReport from "./components/pages/reports/RankedAAIReport";
-import AccountAAIReport from "./components/pages/reports/AccountAAIReport";
+import AccountOwnerReport from "./components/pages/reports/accountOwnerReport/AccountOwnerReport";
 import NftTransactionReport from "./components/pages/reports/nftTransactionReport/NftTransactionReport";
 import ErrorPage from "./components/pages/ErrorPage/ErrorPage";
 
@@ -46,8 +46,8 @@ const routes = [
         element: <RankedAAIReport />,
       },
       {
-        path: "/reports/accountAAIReport",
-        element: <AccountAAIReport />,
+        path: "/reports/accountOwnerReport",
+        element: <AccountOwnerReport />,
       },
       {
         path: "/reports/nftTransactionReport",

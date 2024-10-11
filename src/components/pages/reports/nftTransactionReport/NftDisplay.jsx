@@ -8,8 +8,15 @@ import Typography from "@mui/material/Typography";
 // Styled components
 import { CompositeLinkUnderline } from "../../../styledComponents/links";
 
+// subcomponents
+import NftImageDisplay from "../../../composites/NftImageDisplay";
+
 // Utility
-import { shortenAddress } from "../../../../utils/textFunctions";
+import {
+  ipfsLink,
+  fxArtistLink,
+  fxCollectionLink,
+} from "../../../../utils/fxhashAddresses";
 
 import { LEFT_COLUMN_WIDTH } from "./NftTransactionReport";
 
@@ -25,11 +32,6 @@ export const NftDisplay = () => {
 
   const { nft, filterInfoComplete } = useFilterContext();
 
-  const getImgAddress = (thumbnailAddress) => {
-    const removedIpfs = thumbnailAddress.replace("ipfs://", "");
-    return `https://gateway.fxhash2.xyz/ipfs/${removedIpfs}`;
-  };
-
   return (
     filterInfoComplete && (
       <Paper elevation={6}>
@@ -37,7 +39,8 @@ export const NftDisplay = () => {
           <NftHeader />
           <NftImageDisplay
             size={LEFT_COLUMN_WIDTH}
-            imgAddress={getImgAddress(nft.thumbnail)}
+            imgAddress={ipfsLink(nft.thumbnail)}
+            padding={2}
           />
           <NftFooter />
         </Stack>
@@ -46,24 +49,8 @@ export const NftDisplay = () => {
   );
 };
 
-const NftImageDisplay = ({ imgAddress, size }) => {
-  return (
-    imgAddress && (
-      <Box
-        component="img"
-        p={2}
-        sx={{ width: size, height: size }}
-        src={imgAddress}
-      />
-    )
-  );
-};
-
 const NftHeader = () => {
   const { artist, collection } = useFilterContext();
-
-  const fxArtistLink = (address) => `https://www.fxhash.xyz/u/${address}`;
-  const fxCollectionLink = (id) => `https://www.fxhash.xyz/generative/${id}`;
 
   return (
     <>

@@ -3,10 +3,10 @@ import { axiosGet } from "../lib/axiosUtility";
 
 /**
  * Custom hook for single endpoint get requests to the backend server
- * Likely need to add an updateTrigger
+ * Receives an optional updateTrigger, usually a timestamp using Date.now()
  */
 
-const useGetBackendData = (relativeUri) => {
+const useGetBackendData = (relativeUri, updateTrigger) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ const useGetBackendData = (relativeUri) => {
       }
     };
     getData();
-  }, []);
+  }, [relativeUri, updateTrigger]);
 
   return { data, error, loading };
 };

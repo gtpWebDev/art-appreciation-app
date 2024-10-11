@@ -70,20 +70,4 @@ function App() {
   );
 }
 
-const savedMain = () => {
-  return (
-    <Main open={open}>
-      <DrawerHeader />
-      {/* Pushes footer to bottom */}
-      <Container
-        maxWidth="{false}"
-        sx={{ flexGrow: 1 }}
-        style={{ backgroundColor: "yellow" }}
-      >
-        <Outlet />
-      </Container>
-      <Footer />
-    </Main>
-  );
-};
 export default App;

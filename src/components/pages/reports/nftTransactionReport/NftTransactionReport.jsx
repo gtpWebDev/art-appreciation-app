@@ -1,22 +1,11 @@
-import { useState, createContext, useContext } from "react";
-import { axiosGet } from "../../../../lib/axiosUtility";
-
-// Constants
-import {
-  SEARCH_METHOD_ARTIST,
-  SEARCH_METHOD_COLLECTION,
-  SEARCH_METHOD_NFT,
-} from "../../../../constants/uiConstants";
+import { createContext, useContext } from "react";
 
 // Material UI components
 import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-
-// Styled components
-import { ReversePaper } from "../../../styledComponents/paper";
 
 // Subcomponents
+import ReportHeader from "../../../composites/ReportHeader";
 import NftFilters from "./NftFilters";
 import TransactionDisplay from "./TransactionDisplay";
 import NftDisplay from "./NftDisplay";
@@ -54,7 +43,7 @@ const NftTransactionReport = () => {
       <Grid container spacing={2} align="center">
         {/* Header - full width*/}
         <Grid size={12} mb={3}>
-          <ReportHeader />
+          <ReportHeader headerText="Individual Nft Report" />
         </Grid>
 
         {/* Left column is the filters and the nft display - no size, natural width */}
@@ -70,37 +59,6 @@ const NftTransactionReport = () => {
         </Grid>
       </Grid>
     </FilterProvider>
-  );
-};
-
-const ReportHeader = () => {
-  return (
-    <ReversePaper elevation={6} sx={{ alignItems: "center" }}>
-      <Typography
-        component="h3"
-        variant="h3"
-        color="primary.contrastText"
-        sx={{ padding: "20px 0" }}
-        align="center"
-      >
-        Individual Nft Report
-      </Typography>
-      {/* Remove when design complete */}
-      <Grid
-        size={12}
-        color="black"
-        backgroundColor={{
-          xs: "red",
-          sm: "orange",
-          md: "yellow",
-          lg: "green",
-          xl: "purple",
-        }}
-        mb={3}
-      >
-        xs red, sm orange, md yellow, lg green, xl purple
-      </Grid>
-    </ReversePaper>
   );
 };
 

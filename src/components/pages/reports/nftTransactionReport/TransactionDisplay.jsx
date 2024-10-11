@@ -21,7 +21,7 @@ import {
   StyledTableCell,
 } from "../../../styledComponents/table";
 
-import { formatTransaction } from "../../../../utils/dataTidy";
+import { formatTransaction } from "../../../../utils/formatting";
 
 import { useFilterContext } from "./NftTransactionReport";
 
@@ -128,27 +128,27 @@ const TransactionTableHeader = () => {
   return (
     <TableHead>
       <TableRow>
+        <StyledTableHeaderCell sx={smallScreenCellSettings}>
+          {"Transaction Type"}
+        </StyledTableHeaderCell>
+        <StyledTableHeaderCell sx={smallScreenCellSettings}>
+          {"Date / Time"}
+        </StyledTableHeaderCell>
         <StyledTableHeaderCell
-          sx={smallScreenCellSettings}
-          headerText="Transaction Type"
-        />
+          sx={{ display: { xs: "none", md: "table-cell" } }}
+        >
+          {"Price (Tezos)"}
+        </StyledTableHeaderCell>
+
+        <StyledTableHeaderCell>{"Price ($)"}</StyledTableHeaderCell>
+        <StyledTableHeaderCell sx={smallScreenCellSettings}>
+          {"Score"}
+        </StyledTableHeaderCell>
         <StyledTableHeaderCell
-          sx={smallScreenCellSettings}
-          headerText="Date / Time"
-        />
-        <StyledTableHeaderCell
-          sx={{ display: { xs: "none", md: "table-cell" } }} // removed for xs,sm
-          headerText="Price (Tezos)"
-        />
-        <StyledTableHeaderCell headerText="Price ($)" />
-        <StyledTableHeaderCell
-          sx={smallScreenCellSettings} // Ellipsis...
-          headerText="Score"
-        />
-        <StyledTableHeaderCell
-          sx={{ display: { xs: "none", md: "table-cell" } }} // removed for xs,sm
-          headerText="Normalised Score"
-        />
+          sx={{ display: { xs: "none", md: "table-cell" } }}
+        >
+          {"Normalised Score"}
+        </StyledTableHeaderCell>
       </TableRow>
     </TableHead>
   );

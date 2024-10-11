@@ -30,7 +30,6 @@ const useGetFxSummaryData = () => {
           purchasesByMonth: purchasesByMonthResponse.data,
         };
 
-        console.log("fullResponse", fullResponse);
         setData(fullResponse);
       } catch (error) {
         // need to deal with network error and captured error
