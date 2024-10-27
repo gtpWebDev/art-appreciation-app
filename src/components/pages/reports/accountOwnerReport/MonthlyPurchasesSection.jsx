@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 // Material UI components
 import Grid from "@mui/material/Grid2";
@@ -12,7 +12,7 @@ import LoadingCircle from "../../../composites/LoadingCircle";
 import RowRadioGroup from "../../../composites/RadioGroup";
 
 // context
-import { useAccountOwner } from "./AccountOwnerContext";
+import { AccountOwnerContext } from "./AccountOwnerReport";
 
 // hooks
 import useGetBackendData from "../../../../hooks/useGetBackendData";
@@ -37,7 +37,7 @@ const MonthlyPurchasesSection = () => {
 
 const SectionContent = () => {
   // collect account details from context
-  const { accountOwner } = useAccountOwner();
+  const { accountOwner } = useContext(AccountOwnerContext);
 
   // hook for collecting monthly purchase data
   const { loading, error, data } = useGetBackendData(
@@ -63,6 +63,7 @@ const MonthlyPurchasesChart = ({ data }) => {
   useEffect(() => {
     // restructure backend data into required form
     const restructuredData = restructureData(data);
+    console.log("restructuredData", restructuredData);
     setChartData(restructuredData);
   }, [data]);
 

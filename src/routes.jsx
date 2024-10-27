@@ -1,11 +1,11 @@
 import App from "./App";
-import Home from "./components/pages/HomePage/Home";
+import HeadlineReport from "./components/pages/HeadlineReport/HeadlineReport";
 import MethodPage from "./components/pages/MethodPage/MethodPage";
 import TechPage from "./components/pages/TechPage/TechPage";
 import FxSummaryReport from "./components/pages/reports/FxSummaryReport";
 import OverallAAIReport from "./components/pages/reports/OverallAAIReport";
 import TimePhasedAAIReport from "./components/pages/reports/TimePhasedAAIReport";
-import RankedAAIReport from "./components/pages/reports/RankedAAIReport";
+import ScoreReport from "./components/pages/reports/scoreReport/ScoreReport";
 import AccountOwnerReport from "./components/pages/reports/accountOwnerReport/AccountOwnerReport";
 import NftTransactionReport from "./components/pages/reports/nftTransactionReport/NftTransactionReport";
 import ErrorPage from "./components/pages/ErrorPage/ErrorPage";
@@ -19,7 +19,7 @@ const routes = [
     errorElement: <ErrorPage />,
     children: [
       // renders when there are no children
-      { index: true, element: <Home /> },
+      { index: true, element: <HeadlineReport /> },
       {
         path: "/methodPage",
         element: <MethodPage />,
@@ -42,8 +42,8 @@ const routes = [
         element: <TimePhasedAAIReport />,
       },
       {
-        path: "/reports/rankedAAIReport",
-        element: <RankedAAIReport />,
+        path: "/reports/scoreReport",
+        element: <ScoreReport />,
       },
       {
         path: "/reports/accountOwnerReport",

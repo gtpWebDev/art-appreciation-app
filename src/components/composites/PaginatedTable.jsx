@@ -11,7 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 // hooks
-import useGetStickyTableData from "../../hooks/useGetPaginatedTableData";
+import useGetPaginatedTableData from "../../hooks/useGetPaginatedTableData";
 
 // styled components
 import { StyledTableHeaderCell } from "../styledComponents/table";
@@ -22,8 +22,8 @@ import LoadingCircle from "./LoadingCircle";
 /**
  * Paginated table, using much of the examples in the mui documentation -
  * https://mui.com/material-ui/react-table/
- * Generalised to collect data from any backend endpoint, with parameters for
- * column names and formatting(?)
+ * Generalised to collect data from any backend endpoint, with a columns array
+ * to define the table content and styles
  */
 
 // context
@@ -47,7 +47,7 @@ export const PaginatedTable = (props) => {
 
   const dataEndPoint = `${rootEndPoint}?page=${page}&rowsPerPage=${rowsPerPage}`;
 
-  const { count, data, error, loading } = useGetStickyTableData(
+  const { count, data, error, loading } = useGetPaginatedTableData(
     dataEndPoint,
     countEndPoint,
     updateTrigger

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 // Owner context is used mainly to make owner details available through
-// the majority of the OwberReport page content
+// the majority of the OwnerReport page content
 
 const AccountOwnerContext = createContext();
 

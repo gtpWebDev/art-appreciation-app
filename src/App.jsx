@@ -31,12 +31,8 @@ import { Main } from "./components/styledComponents/main";
 function App() {
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen_cbfn = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose_cbfn = () => {
-    setOpen(false);
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
   };
 
   return (
@@ -49,13 +45,13 @@ function App() {
       }}
     >
       <CssBaseline />
-      <NavBar handleDrawerOpen_cbfn={handleDrawerOpen_cbfn} open={open} />
-      <Sidebar handleDrawerClose_cbfn={handleDrawerClose_cbfn} open={open} />
+      <NavBar toggleDrawer={toggleDrawer} open={open} />
+      <Sidebar toggleDrawer={toggleDrawer} open={open} />
       <Main open={open}>
         <DrawerHeader />
         {/* Pushes footer to bottom */}
         <Container
-          maxWidth={false}
+          maxWidth="xl"
           sx={{
             flexGrow: 1,
           }}

@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 // Material UI components
 import Grid from "@mui/material/Grid2";
 import Paper from "@mui/material/Paper";
@@ -14,11 +16,11 @@ import { shortenAddress } from "../../../../utils/textFunctions";
 import { formatDateTime } from "../../../../utils/formatting";
 
 // context
-import { useAccountOwner } from "./AccountOwnerContext";
+import { AccountOwnerContext } from "./AccountOwnerReport";
 import useGetBackendData from "../../../../hooks/useGetBackendData";
 
 const SummaryStatsSection = () => {
-  const { accountOwner } = useAccountOwner();
+  const { accountOwner } = useContext(AccountOwnerContext);
 
   const summaryStatsUrl = `/fxstats/owners/${accountOwner.id}`;
   const { data, error, loading } = useGetBackendData(summaryStatsUrl);

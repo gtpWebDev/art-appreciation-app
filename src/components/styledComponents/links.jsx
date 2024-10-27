@@ -3,57 +3,99 @@ import Link from "@mui/material/Link";
 
 import { styled } from "@mui/system";
 
+import theme from "../../theme";
+
 /**
  * Note all links here deal with potential clash of Link used with
  * both material UI and react-router-dom
  */
 
-export const CompositeLink = ({ children, linkLoc }) => {
-  return (
-    <StyledLink component={RouterLink} to={linkLoc}>
-      {children}
-    </StyledLink>
-  );
-};
-
-export const CompositeLinkUnderline = ({ children, linkLoc }) => {
+export const CompositeLinkPrimaryUnderline = ({ children, linkLoc }) => {
   return (
     <StyledLinkUnderline
       component={RouterLink}
       to={linkLoc}
-      target="_blank"
-      rel="noopener noreferrer"
+      color={theme.palette.primary.main}
     >
       {children}
     </StyledLinkUnderline>
   );
 };
 
-export const CompositeLinkNoUnderline = ({ children, linkLoc }) => {
+export const CompositeLinkPrimaryNoUnderline = ({ children, linkLoc }) => {
   return (
-    <StyledLinkNoUnderline component={RouterLink} to={linkLoc}>
+    <StyledLinkNoUnderline
+      component={RouterLink}
+      to={linkLoc}
+      color={theme.palette.primary.main}
+    >
       {children}
     </StyledLinkNoUnderline>
   );
 };
 
-const StyledLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.primary.contrastText,
-  textDecoration: "none",
-  "&:hover": {
-    textDecoration: "underline",
-  },
-}));
+export const CompositeLinkContrastUnderline = ({ children, linkLoc }) => {
+  return (
+    <StyledLinkUnderline
+      component={RouterLink}
+      to={linkLoc}
+      color={theme.palette.primary.contrastText}
+    >
+      {children}
+    </StyledLinkUnderline>
+  );
+};
 
-const StyledLinkNoUnderline = styled(Link)(({ theme }) => ({
-  color: theme.palette.primary.main,
+export const CompositeLinkContrastNoUnderline = ({ children, linkLoc }) => {
+  return (
+    <StyledLinkNoUnderline
+      component={RouterLink}
+      to={linkLoc}
+      color={theme.palette.primary.contrastText}
+    >
+      {children}
+    </StyledLinkNoUnderline>
+  );
+};
+
+// const StyledLink = styled(Link)(({ color }) => ({
+//   color: color,
+//   textDecoration: "none",
+//   "&:hover": {
+//     textDecoration: "underline",
+//   },
+// }));
+
+const StyledLinkNoUnderline = styled(Link)(({ color }) => ({
+  color: color,
   textDecoration: "none",
   "&:hover": {
     textDecoration: "none",
   },
 }));
 
-const StyledLinkUnderline = styled(Link)(({ theme }) => ({
-  color: theme.palette.secondary.main,
+const StyledLinkUnderline = styled(Link)(({ color }) => ({
+  color: color,
   textDecoration: "underline",
 }));
+
+// export const CompositeLinkUnderline = ({ children, linkLoc }) => {
+//   return (
+//     <StyledLinkUnderline
+//       component={RouterLink}
+//       to={linkLoc}
+//       target="_blank"
+//       rel="noopener noreferrer"
+//     >
+//       {children}
+//     </StyledLinkUnderline>
+//   );
+// };
+
+// export const CompositeLinkNoUnderline = ({ children, linkLoc }) => {
+//   return (
+//     <StyledLinkNoUnderline component={RouterLink} to={linkLoc}>
+//       {children}
+//     </StyledLinkNoUnderline>
+//   );
+// };

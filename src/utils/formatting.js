@@ -62,6 +62,12 @@ export const formatTransaction = (trans) => {
   };
 };
 
+export const formatPercentage = (value, decimalPoints) => {
+  const num = Number(value);
+  const perc = num * 100;
+  return `${perc.toFixed(decimalPoints)}%`;
+};
+
 // number -> $1,234
 export const formatDollarCurrency = (value, decimalPoints) => {
   const num = Number(value);
@@ -71,6 +77,13 @@ export const formatDollarCurrency = (value, decimalPoints) => {
   });
 
   return num < 0 ? `-$${formattedValue}` : `$${formattedValue}`;
+};
+
+export const formatMillionDollarCurrency = (value, decimalPoints) => {
+  const num = Number(value);
+  const isNegative = num < 0; // Check if the number is negative
+  const formattedValue = `$${Math.abs(num / 1000000).toFixed(decimalPoints)}m`;
+  return isNegative ? `-${formattedValue}` : formattedValue;
 };
 
 // number -> 1,234 tz

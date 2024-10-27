@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 
+import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -43,8 +44,8 @@ const drilldownListItems = [
     icon: <NftIcon />,
   },
   {
-    text: "Score Rankings",
-    linkLoc: "/reports/rankedAAIReport",
+    text: "Scores",
+    linkLoc: "/reports/scoreReport",
     icon: <ScoreRankIcon />,
   },
 ];
@@ -62,96 +63,90 @@ const behindTheScenesItems = [
   },
 ];
 
-const Sidebar = ({ handleDrawerClose_cbfn, open }) => {
+const Sidebar = ({ toggleDrawer, open }) => {
   return (
-    <Drawer
-      sx={{
-        width: DRAWER_WIDTH,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: DRAWER_WIDTH,
-          boxSizing: "border-box",
-        },
-      }}
-      variant="persistent"
-      anchor="left"
-      open={open}
-    >
-      <DrawerHeader>
-        <IconButton onClick={handleDrawerClose_cbfn}>
-          {theme.direction === "ltr" ? (
-            <ChevronLeftIcon />
-          ) : (
-            <ChevronRightIcon />
-          )}
-        </IconButton>
-      </DrawerHeader>
-      <Divider />
-      <List>
-        {["Headline Report"].map((text, index) => (
-          <LinkedSidebarListItem key={index} disablePadding linkLoc={"/"}>
-            <ListItemButton>
-              <ListItemIcon>
-                <HeadlineReportIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </LinkedSidebarListItem>
-        ))}
-      </List>
-      <Divider />
-      <List
-        subheader={
-          <ListSubheader sx={{ backgroundColor: "background.default" }}>
-            <Typography pt={2} variant="subtitle1" color="secondary">
-              Drilldowns
-            </Typography>
-          </ListSubheader>
-        }
+    <Drawer open={open} onClose={toggleDrawer(false)}>
+      <Box
+        sx={{ width: 250 }}
+        role="presentation"
+        onClick={toggleDrawer(false)}
       >
-        {drilldownListItems.map((itemDetails, index) => (
-          <LinkedSidebarListItem
-            key={index}
-            disablePadding
-            linkLoc={itemDetails.linkLoc}
-          >
-            <ListItemButton>
-              <ListItemIcon>{itemDetails.icon}</ListItemIcon>
-              <ListItemText primary={itemDetails.text} />
-            </ListItemButton>
-          </LinkedSidebarListItem>
-        ))}
-      </List>
-      <Divider />
-      <List
-        subheader={
-          <ListSubheader sx={{ backgroundColor: "background.default" }}>
-            <Typography pt={2} variant="subtitle1" color="secondary">
-              Behind the scenes...
-            </Typography>
-          </ListSubheader>
-        }
-      >
-        {behindTheScenesItems.map((itemDetails, index) => (
-          <LinkedSidebarListItem
-            key={index}
-            disablePadding
-            linkLoc={itemDetails.linkLoc}
-          >
-            <ListItemButton>
-              <ListItemIcon>{itemDetails.icon}</ListItemIcon>
-              <ListItemText primary={itemDetails.text} />
-            </ListItemButton>
-          </LinkedSidebarListItem>
-        ))}
-      </List>
-      <Divider />
+        <DrawerHeader>
+          <IconButton onClick={toggleDrawer}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {["Headline Report"].map((text, index) => (
+            <LinkedSidebarListItem key={index} disablePadding linkLoc={"/"}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HeadlineReportIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </LinkedSidebarListItem>
+          ))}
+        </List>
+        <Divider />
+        <List
+          subheader={
+            <ListSubheader sx={{ backgroundColor: "background.default" }}>
+              <Typography pt={2} variant="subtitle1" color="secondary">
+                Drilldowns
+              </Typography>
+            </ListSubheader>
+          }
+        >
+          {drilldownListItems.map((itemDetails, index) => (
+            <LinkedSidebarListItem
+              key={index}
+              disablePadding
+              linkLoc={itemDetails.linkLoc}
+            >
+              <ListItemButton>
+                <ListItemIcon>{itemDetails.icon}</ListItemIcon>
+                <ListItemText primary={itemDetails.text} />
+              </ListItemButton>
+            </LinkedSidebarListItem>
+          ))}
+        </List>
+        <Divider />
+        <List
+          subheader={
+            <ListSubheader sx={{ backgroundColor: "background.default" }}>
+              <Typography pt={2} variant="subtitle1" color="secondary">
+                Behind the scenes...
+              </Typography>
+            </ListSubheader>
+          }
+        >
+          {behindTheScenesItems.map((itemDetails, index) => (
+            <LinkedSidebarListItem
+              key={index}
+              disablePadding
+              linkLoc={itemDetails.linkLoc}
+            >
+              <ListItemButton>
+                <ListItemIcon>{itemDetails.icon}</ListItemIcon>
+                <ListItemText primary={itemDetails.text} />
+              </ListItemButton>
+            </LinkedSidebarListItem>
+          ))}
+        </List>
+        <Divider />
+      </Box>
     </Drawer>
   );
 };
 
 Sidebar.propTypes = {
-  handleDrawerClose_cbfn: PropTypes.func.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
 

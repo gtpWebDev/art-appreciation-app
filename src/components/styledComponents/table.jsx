@@ -10,10 +10,11 @@ export const StyledTableHeaderCell = ({ children, sx }) => {
 //   return <TableHeaderCellStyling sx={sx}>{headerText}</TableHeaderCellStyling>;
 // };
 
-const TableHeaderCellStyling = styled(TableCell)(({ theme }) => ({
+const TableHeaderCellStyling = styled(TableCell)(({ theme, sx }) => ({
   backgroundColor: theme.palette.secondary.main,
   color: theme.palette.primary.contrastText,
   textAlign: "center",
+  sx: { sx },
 }));
 
 export const StyledTableCell = ({ text, sx }) => {

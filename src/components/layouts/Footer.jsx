@@ -14,7 +14,7 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         <Grid container spacing={5} px={3} pb={5}>
-          <Grid item xs={12} align="center" mt={1}>
+          <Grid xs={12} align="center" mt={1}>
             <Typography variant="body2">
               <Link href="#top" color="footer.accent">
                 Back to top
@@ -22,7 +22,7 @@ const Footer = () => {
             </Typography>
           </Grid>
 
-          <Grid item xs={12} md={3}>
+          <Grid xs={12} md={3}>
             <Typography variant="h6">My Details</Typography>
             <Typography variant="body2">
               <Link
@@ -46,7 +46,7 @@ const Footer = () => {
               gtpwebdev@gmail.com
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid xs={12} md={6}>
             <Typography variant="h6">About This Site</Typography>
             <Typography variant="body2">
               Bit of explanation
@@ -63,7 +63,7 @@ const Footer = () => {
               </Link>
             </Typography>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid xs={12} md={3}>
             <Typography variant="h6">Site Technology</Typography>
 
             <Typography variant="body2">

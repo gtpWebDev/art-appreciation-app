@@ -1,32 +1,41 @@
-import { Link } from "react-router-dom";
+// Material UI components
+import Grid from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
-function MethodPage() {
+// subcomponents
+import ReportHeader from "../../composites/ReportHeader";
+import ScoreCalculationSection from "./ScoreCalculationSection";
+
+const MethodPage = () => {
   return (
-    <div>
-      <h3>Method Page</h3>
-      <p>
-        Explanation of methodology throughout the report for people who are
-        interested in how it was put together / how to interpret the results
-      </p>
-      <h4>Source Data</h4>
-      <p>Teztok details</p>
-      <p>
-        Teztok issues - batch mints in early days, batch relists to be seen?
-      </p>
-      <h4>Data load</h4>
-      <p>
-        Data load issues - missing collection names, artists, etc. bumped to
-        99999 and ignored
-      </p>
-      <p>
-        Nfts with no primary purchase ignored completely - about 1000 NFTs in
-        millions
-      </p>
-      <h4>Score calculation</h4>
-      <p>Rationale / goal of score method</p>
-      <p>Example score calculation</p>
-    </div>
+    <Grid container spacing={2} align="center">
+      <Grid size={12} mb={1}>
+        <ReportHeader headerText="Method Page" />
+      </Grid>
+      <MethodSections />
+    </Grid>
   );
-}
+};
+
+const MethodSections = () => {
+  return (
+    <>
+      <Paper elevation={6}>
+        <Grid container size={12} rowSpacing={1} columnSpacing={0}>
+          <ScoreCalculationSection />
+        </Grid>
+      </Paper>
+
+      <Paper elevation={6}>
+        <Grid container size={12} rowSpacing={1} columnSpacing={0}>
+          <Grid container size={12}>
+            <Grid size={12}>Section on data and teztok?</Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+    </>
+  );
+};
 
 export default MethodPage;

@@ -8,20 +8,16 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 
 // utility
-import { axiosGet } from "../../../../lib/axiosUtility";
+import { axiosGet } from "../../lib/axiosUtility";
 
 // constants
-import { BACKEND_REQUEST_LIMIT } from "../../../../constants/backendRequests";
+import { BACKEND_REQUEST_LIMIT } from "../../constants/backendRequests";
 
-// context
-import { useAccountOwner } from "./AccountOwnerContext";
-
-const AccountOwnerFilter = () => {
+const AccountOwnerFilter = ({ setAccountOwner }) => {
   // Material UI Autocomplete functionality
   // looks up account possibilities after 4 characters
-  // assigns AccountContext account details on selection
-
-  const { setAccountOwner } = useAccountOwner();
+  // Note, this filter is used on multiple pages, so is located in composite components
+  // Receives setAccountOwner callback
 
   const [errorText, setErrorText] = useState(null);
   const [ownerOptions, setOwnerOptions] = useState([]);
@@ -46,8 +42,6 @@ const AccountOwnerFilter = () => {
       }
     }
   };
-
-  const filterWidth = 400;
 
   return renderGridFormatting(
     <Autocomplete

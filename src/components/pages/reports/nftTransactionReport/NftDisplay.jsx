@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 // Styled components
-import { CompositeLinkUnderline } from "../../../styledComponents/links";
+import { CompositeLinkPrimaryUnderline } from "../../../styledComponents/links";
 
 // subcomponents
 import NftImageDisplay from "../../../composites/NftImageDisplay";
@@ -34,7 +34,7 @@ export const NftDisplay = () => {
 
   return (
     filterInfoComplete && (
-      <Paper elevation={6}>
+      <Paper elevation={6} sx={{ width: LEFT_COLUMN_WIDTH }}>
         <Stack pt={1} pb={1}>
           <NftHeader />
           <NftImageDisplay
@@ -55,16 +55,18 @@ const NftHeader = () => {
   return (
     <>
       <Typography sx={{ fontStyle: "italic" }}>
-        <CompositeLinkUnderline linkLoc={fxCollectionLink(collection.id)}>
+        <CompositeLinkPrimaryUnderline
+          linkLoc={fxCollectionLink(collection.id)}
+        >
           {collection.name}
-        </CompositeLinkUnderline>
+        </CompositeLinkPrimaryUnderline>
       </Typography>
 
       <Typography>
         by{" "}
-        <CompositeLinkUnderline linkLoc={fxArtistLink(artist.address)}>
+        <CompositeLinkPrimaryUnderline linkLoc={fxArtistLink(artist.address)}>
           {artist.alias}
-        </CompositeLinkUnderline>
+        </CompositeLinkPrimaryUnderline>
       </Typography>
     </>
   );

@@ -13,7 +13,7 @@ import VerticalRangeDisplay from "../../../composites/VerticalRangeDisplay";
 import RankingTable from "../../../composites/RankingTable";
 
 // context
-import { useAccountOwner } from "./AccountOwnerContext";
+import { AccountOwnerContext } from "./AccountOwnerReport";
 
 // custom hook for account score data
 import useAccountScores from "./useAccountScores";
@@ -22,7 +22,7 @@ const AccountScoreContext = createContext();
 
 const ScoresSection = () => {
   // Collect account from context
-  const { accountOwner } = useAccountOwner();
+  const { accountOwner } = useContext(AccountOwnerContext);
 
   return (
     <AccountScoresProvider ownerId={accountOwner.id}>

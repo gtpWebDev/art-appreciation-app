@@ -1,14 +1,13 @@
+import { useState, createContext, useContext } from "react";
+
 // Material UI components
 import Grid from "@mui/material/Grid2";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-// Account context
-import { AccountOwnerProvider, useAccountOwner } from "./AccountOwnerContext";
-
 // Subcomponents
 import ReportHeader from "../../../composites/ReportHeader";
-import AccountOwnerFilter from "./AccountOwnerFilter";
+import AccountOwnerFilter from "../../../composites/AccountOwnerFilter";
 import SummaryStatsSection from "./SummaryStatsSection";
 import ScoresSection from "./AccountScoreSection";
 import MonthlyPurchasesSection from "./MonthlyPurchasesSection";
@@ -16,25 +15,31 @@ import AccountTransactionsSection from "./AccountTransactionsSection";
 
 import theme from "../../../../theme";
 
+// context
+export const AccountOwnerContext = createContext();
+
 const AccountOwnerReport = () => {
+  const [accountOwner, setAccountOwner] = useState(null);
+
   return (
-    <AccountOwnerProvider>
+    <AccountOwnerContext.Provider value={{ accountOwner, setAccountOwner }}>
       {/* Main container - full width */}
       <Grid container spacing={2} align="center">
-        <Grid size={12} mb={3}>
+        <Grid size={12} mb={1}>
           <ReportHeader headerText="Account Summary" />
         </Grid>
         <Grid size={12}>
-          <AccountOwnerFilter />
+          {/* cbfn passed as filter is used in multiple contexts, needs to apply the correct one */}
+          <AccountOwnerFilter setAccountOwner={setAccountOwner} />
         </Grid>
         <ReportSections />
       </Grid>
-    </AccountOwnerProvider>
+    </AccountOwnerContext.Provider>
   );
 };
 
 const ReportSections = () => {
-  const { accountOwner } = useAccountOwner();
+  const { accountOwner } = useContext(AccountOwnerContext);
   return (
     accountOwner && (
       <>

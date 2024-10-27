@@ -1,9 +1,11 @@
+import { useContext } from "react";
+
 // subcomponents
 import PaginatedTable from "../../../composites/PaginatedTable";
 import NftImageDisplay from "../../../composites/NftImageDisplay";
 
 // context
-import { useAccountOwner } from "./AccountOwnerContext";
+import { AccountOwnerContext } from "./AccountOwnerReport";
 
 // utils
 import {
@@ -23,7 +25,7 @@ import { ipfsLink } from "../../../../utils/fxhashAddresses";
 
 const AccountTransactionsSection = () => {
   // collect account details from context
-  const { accountOwner } = useAccountOwner();
+  const { accountOwner } = useContext(AccountOwnerContext);
 
   // Control variables for generalised paginated table
   const rootEndPoint = `http://localhost:3000/transactions/owners/${accountOwner.id}`;

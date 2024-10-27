@@ -15,14 +15,14 @@ import { StyledNavBar } from "../styledComponents/navbar";
  * - Currently then just some text
  */
 
-const NavBar = ({ handleDrawerOpen_cbfn, open }) => {
+const NavBar = ({ toggleDrawer, open }) => {
   return (
     <StyledNavBar position="fixed" open={open}>
       <Toolbar>
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={handleDrawerOpen_cbfn}
+          onClick={toggleDrawer(true)}
           edge="start"
           sx={[
             {
@@ -42,7 +42,7 @@ const NavBar = ({ handleDrawerOpen_cbfn, open }) => {
 };
 
 NavBar.propTypes = {
-  handleDrawerOpen_cbfn: PropTypes.func.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
 

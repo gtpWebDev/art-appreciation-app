@@ -26,8 +26,6 @@ const useGetStickyTableData = (
           axiosGet(relativeDataUri),
           axiosGet(relativeCountUri),
         ]);
-        console.log("Initial Data", transactions.data);
-        console.log("Initial Count", count.data);
         setCount(count.data);
         setData(transactions.data);
       } catch (error) {
@@ -46,7 +44,6 @@ const useGetStickyTableData = (
       try {
         const response = await axiosGet(relativeDataUri);
         if (response.success) {
-          console.log("Data", response.data);
           setData(response.data);
         } else {
           setError(response.error);
