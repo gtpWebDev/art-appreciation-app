@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import ReportHeader from "../../../composites/ReportHeader";
 import NftFilters from "./NftFilters";
 import TransactionDisplay from "./TransactionDisplay";
-import NftDisplay from "./NftDisplay";
+import NftDisplayArea from "./NftDisplayArea";
 
 // Custom hooks
 import useFilterLogic from "../../../../hooks/useFilterLogic";
@@ -58,7 +58,7 @@ const NftTransactionReport = () => {
         >
           <Stack spacing={3}>
             <NftFilters />
-            <NftDisplay />
+            <NftDisplayArea />
           </Stack>
         </Grid>
         {/* Transaction display move to new line for xs and sm */}

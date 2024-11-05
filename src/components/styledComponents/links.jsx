@@ -15,6 +15,7 @@ export const CompositeLinkPrimaryUnderline = ({ children, linkLoc }) => {
     <StyledLinkUnderline
       component={RouterLink}
       to={linkLoc}
+      target="_blank"
       color={theme.palette.primary.main}
     >
       {children}
@@ -27,6 +28,7 @@ export const CompositeLinkPrimaryNoUnderline = ({ children, linkLoc }) => {
     <StyledLinkNoUnderline
       component={RouterLink}
       to={linkLoc}
+      target="_blank"
       color={theme.palette.primary.main}
     >
       {children}
@@ -39,6 +41,7 @@ export const CompositeLinkContrastUnderline = ({ children, linkLoc }) => {
     <StyledLinkUnderline
       component={RouterLink}
       to={linkLoc}
+      target="_blank"
       color={theme.palette.primary.contrastText}
     >
       {children}
@@ -51,6 +54,7 @@ export const CompositeLinkContrastNoUnderline = ({ children, linkLoc }) => {
     <StyledLinkNoUnderline
       component={RouterLink}
       to={linkLoc}
+      target="_blank"
       color={theme.palette.primary.contrastText}
     >
       {children}

@@ -86,7 +86,7 @@ const StatsTableHeader = () => {
   return (
     <TableHead>
       <TableRow>
-        <StyledTableHeaderCell>{"Test text"}</StyledTableHeaderCell>
+        <StyledTableHeaderCell>{""}</StyledTableHeaderCell>
         <StyledTableHeaderCell>{"Count"}</StyledTableHeaderCell>
         <StyledTableHeaderCell>{"Tezos"}</StyledTableHeaderCell>
         <StyledTableHeaderCell>{"Usd"}</StyledTableHeaderCell>

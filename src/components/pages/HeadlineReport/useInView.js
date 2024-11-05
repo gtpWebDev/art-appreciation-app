@@ -22,7 +22,7 @@ const useInView = (threshold = 0, rootMargin = "100px", chapter) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // console.log(`${chapter} in view: ${entry.isIntersecting}`);
+        console.log(`${chapter} in view: ${entry.isIntersecting}`);
         setIsInView(entry.isIntersecting);
       },
       {

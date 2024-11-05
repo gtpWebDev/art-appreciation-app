@@ -8,61 +8,70 @@ import Box from "@mui/material/Box";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 // subcomponents
-import LoadingCircle from "../../../composites/LoadingCircle";
-import RowRadioGroup from "../../../composites/RadioGroup";
+import LoadingCircle from "./LoadingCircle";
+import RowRadioGroup from "./RadioGroup";
 
 // context
-import { AccountOwnerContext } from "./AccountOwnerReport";
+import { AccountOwnerContext } from "../pages/reports/accountOwnerReport/AccountOwnerReport";
 
 // hooks
-import useGetBackendData from "../../../../hooks/useGetBackendData";
+import useGetBackendData from "../../hooks/useGetBackendData";
 
 // utility
 import {
-  formatDollarCurrency,
-  formatTezosCurrency,
-  formatNumber,
-} from "../../../../utils/formatting";
+  formatMillionDollarCurrency,
+  formatMillionTezosCurrency,
+  formatMillionNumber,
+} from "../../utils/formatting";
 
-import restructureData from "../../../../utils/monthlyPurchasesRestructure";
+import restructureData from "../../utils/monthlyPurchasesRestructure";
 
-const MonthlyPurchasesSection = () => {
+/**
+ * Monthly purchases chart, with stacked data (Primary and Secondary purchases)
+ * Embedded radio buttons to select currency - Usd or Tz - or number of purchases
+ * Responsive chart, which fits inside its container.
+ * Props:
+ * - data - array of data for chart
+ *
+ */
+
+const MonthlyPurchasesChart = ({ height }) => {
+  // hook for collecting monthly purchase data
+  const { loading, error, data } = useGetBackendData(
+    `http://localhost:3000/purchases/by-month`
+  );
+
+  /** Data of form:
+  {
+    "transaction_type": "primary_purchase",
+    "transaction_year": 2021,
+    "transaction_month": 11,
+    "sum_price_usd": "952813.118387",
+    "sum_price_tz": "184019.472604",
+    "count": 88513
+  },
+  */
+
   return (
     <Grid container p={2} columnSpacing={2}>
-      <Grid size={12}>{/* <SectionHeader /> */}</Grid>
-      <SectionContent />
+      {loading ? (
+        <LoadingCircle />
+      ) : (
+        <Grid size={12} sx={{ pt: { xs: 0, md: 1 } }}>
+          <Chart data={data} height={height} />
+        </Grid>
+      )}
     </Grid>
   );
 };
 
-const SectionContent = () => {
-  // collect account details from context
-  const { accountOwner } = useContext(AccountOwnerContext);
-
-  // hook for collecting monthly purchase data
-  const { loading, error, data } = useGetBackendData(
-    `http://localhost:3000/purchases/by-month/owners/${accountOwner.id}`
-  );
-
-  return (
-    <>
-      {loading ? (
-        <FormattedLoadingCircle />
-      ) : (
-        <Grid size={12} sx={{ pt: { xs: 0, md: 1 } }}>
-          <OwnerMonthlyPurchasesChart data={data} height={250} />
-        </Grid>
-      )}
-    </>
-  );
-};
-
-export const OwnerMonthlyPurchasesChart = ({ data, height = 250 }) => {
+const Chart = ({ data, height = 250 }) => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     // restructure backend data into required form
     const restructuredData = restructureData(data);
+    console.log("restructuredData", restructuredData);
     setChartData(restructuredData);
   }, [data]);
 
@@ -101,11 +110,11 @@ export const OwnerMonthlyPurchasesChart = ({ data, height = 250 }) => {
   // Responsive formatting function for the y axis
   const valueFormatter = (value) => {
     if (chartUnit === "Usd") {
-      return formatDollarCurrency(value);
+      return formatMillionDollarCurrency(value, 1);
     } else if (chartUnit === "Tz") {
-      return formatTezosCurrency(value);
+      return formatMillionTezosCurrency(value, 1);
     } else {
-      return formatNumber(value);
+      return formatMillionNumber(value, 2);
     }
   };
 
@@ -135,6 +144,7 @@ export const OwnerMonthlyPurchasesChart = ({ data, height = 250 }) => {
             stack: "purchases",
           },
         ]}
+        // width={500}
         height={height}
         margin={{ left: 70, top: 40 }} // margin around chart drawing area
         colors={["#4caf50", "#dc004e"]}
@@ -143,19 +153,4 @@ export const OwnerMonthlyPurchasesChart = ({ data, height = 250 }) => {
   );
 };
 
-// look at final formatting need and likely move to styledComponents
-const FormattedLoadingCircle = () => {
-  return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="200px"
-      width="100%"
-    >
-      <LoadingCircle />
-    </Box>
-  );
-};
-
-export default MonthlyPurchasesSection;
+export default MonthlyPurchasesChart;

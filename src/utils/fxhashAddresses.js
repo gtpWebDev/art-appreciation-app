@@ -10,6 +10,6 @@ export const fxCollectionLink = (fxhashCollectionId) =>
 // "ipfs://QmUKTwnQoLV1SvoQPXry68ktiSfkFu89wVxryhaeSPaUz2"
 export const ipfsLink = (ipfsThumbnail) => {
   const removedIpfs = ipfsThumbnail.replace("ipfs://", "");
-  console.log(`https://gateway.fxhash2.xyz/ipfs/${removedIpfs}`);
+  // console.log(`https://gateway.fxhash2.xyz/ipfs/${removedIpfs}`);
   return `https://gateway.fxhash2.xyz/ipfs/${removedIpfs}`;
 };

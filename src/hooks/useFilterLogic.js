@@ -64,7 +64,7 @@ const useFilterLogic = () => {
 
   // Nft change - collect nft info
   const handleNftChange = async (nft) => {
-    console.log("Changing hook nft to:", nft);
+    // console.log("Changing hook nft to:", nft);
     setNft(nft);
     await completeFilterInformation(nft);
   };

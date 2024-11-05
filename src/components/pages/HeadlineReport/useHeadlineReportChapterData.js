@@ -6,14 +6,15 @@ import { axiosGet } from "../../../lib/axiosUtility";
 import HeadlineReportCacheContext from "./HeadlineReportCacheContext";
 
 /**
- * A straight forward custom hook to collect API data from the backend endpoint,
- * BUT IT MUST BE USED WITHIN THE HEADLINE REPORT CACHE CONTEXT ONLY.
+ * A straight forward custom hook to collect API data from an endpoint on the
+ * backend, BUT IT IS MUST BE LOCATED WITHIN THE HEADLINE REPORT CACHE CONTEXT.
  * It checks whether the headlineReportCacheContext holds data for the endpoint
- * being requested.
- * If it does, it uses that.
- * If it doesn't, it collects the data form the API.
+ * being requested. If it does, it uses that. If it doesn't, it collects the
+ * data from the backend endpoint.
  *
- * Ensures only one data collection is carrie dout for each endpoint.
+ * - It is basically a once only collection of the endpoint data, used because
+ *   the sections are removed from the dom using usInView as they leave the
+ *   viewport.
  */
 
 const useHeadlineReportChapterData = (endpoint) => {
@@ -50,7 +51,14 @@ const useHeadlineReportChapterData = (endpoint) => {
         setLoading(false);
       }
     };
-    getData();
+
+    // early exit if no endpoint data required
+    if (!endpoint) {
+      setData(null);
+      setLoading(false);
+    } else {
+      getData();
+    }
   }, [endpoint]);
 
   return { data, loading, error };

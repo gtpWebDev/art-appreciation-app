@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import NavBar from "./components/layouts/NavBar";
 import Footer from "./components/layouts/Footer";
@@ -29,6 +29,10 @@ import { Main } from "./components/styledComponents/main";
  */
 
 function App() {
+  // this hook enables conditional formatting outside the Outlet based on which route is used.
+  const location = useLocation();
+  const isHeadlineReport = location.pathname === "/";
+
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -50,16 +54,21 @@ function App() {
       <Main open={open}>
         <DrawerHeader />
         {/* Pushes footer to bottom */}
-        <Container
-          maxWidth="xl"
-          sx={{
-            flexGrow: 1,
-          }}
-          // Padding outside the Outlet page content
-          style={{ padding: "20px" }}
-        >
+        {/* Conditionally apply a max width container to all but the headline report */}
+        {isHeadlineReport ? (
           <Outlet />
-        </Container>
+        ) : (
+          <Container
+            maxWidth="xl"
+            sx={{
+              flexGrow: 1,
+            }}
+            // Padding outside the Outlet page content
+            style={{ padding: "20px" }}
+          >
+            <Outlet />
+          </Container>
+        )}
         <Footer />
       </Main>
     </Box>

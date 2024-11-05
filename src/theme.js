@@ -1,5 +1,4 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
 
 /**
  * General intro:
@@ -14,7 +13,7 @@ import { red } from "@mui/material/colors";
  */
 
 const secondaryMain = "#a03e4d";
-const backgroundDefault = "#f7f4f4";
+const backgroundDefault = "#ffffff"; // "#f7f4f4";
 
 // Create a theme instance.
 let theme = createTheme({
@@ -37,6 +36,10 @@ let theme = createTheme({
     footer: {
       accent: secondaryMain,
       background: "#0E012B",
+    },
+    headlineReport: {
+      lightBackground: "#ffffff", // "#f0dbdd",
+      darkBackground: "#912243",
     },
   },
 

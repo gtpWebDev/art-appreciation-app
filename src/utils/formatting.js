@@ -5,16 +5,17 @@
 import { TRANSACTION_TYPES } from "../constants/dataConstants";
 import { format, parseISO } from "date-fns";
 
+// duplication below, sort when have time
 const tidyTransactionType = (type) => {
   switch (type) {
     case "primary_purchase":
-      return "Primary Purchase";
+      return "Primary Purchases";
     case "secondary_purchase":
-      return "Secondary Purchase";
+      return "Secondary Purchases";
     case "listing":
-      return "Listing";
+      return "Listings";
     case "delisting":
-      return "Cancel Listing";
+      return "Cancel Listings";
   }
 };
 
@@ -86,6 +87,22 @@ export const formatMillionDollarCurrency = (value, decimalPoints) => {
   return isNegative ? `-${formattedValue}` : formattedValue;
 };
 
+export const formatMillionTezosCurrency = (value, decimalPoints) => {
+  const num = Number(value);
+  const isNegative = num < 0; // Check if the number is negative
+  const formattedValue = `${Math.abs(num / 1000000).toFixed(
+    decimalPoints
+  )}m tz`;
+  return isNegative ? `-${formattedValue}` : formattedValue;
+};
+
+export const formatMillionNumber = (value, decimalPoints) => {
+  const num = Number(value);
+  const isNegative = num < 0; // Check if the number is negative
+  const formattedValue = `${Math.abs(num / 1000000).toFixed(decimalPoints)}m`;
+  return isNegative ? `-${formattedValue}` : formattedValue;
+};
+
 // number -> 1,234 tz
 export const formatTezosCurrency = (value, decimalPoints) => {
   const num = Number(value);
@@ -115,14 +132,21 @@ export const formatDetailedDateTime = (timestamp) => {
 export const formatTransactionType = (transType) => {
   switch (transType) {
     case "primary_purchase":
-      return "Primary Purchase";
+      return "Primary Purchases";
     case "secondary_purchase":
-      return "Secondary Purchase";
+      return "Secondary Purchases";
     case "listing":
-      return "Listing";
+      return "Listings";
     case "delisting":
-      return "Cancel Listing";
+      return "Cancel Listings";
     default:
       return "";
   }
+};
+
+// 12 -> December
+export const formatMonthText = (monthNumber) => {
+  const date = new Date(2020, monthNumber - 1); // Create a date object for the month
+  const monthName = format(date, "MMMM"); // 'MMMM' is the format for the full month name
+  return monthName;
 };
