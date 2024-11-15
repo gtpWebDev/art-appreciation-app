@@ -1,5 +1,8 @@
 import App from "./App";
-import HeadlineReport from "./components/pages/HeadlineReport/HeadlineReport";
+import HomePage from "./components/pages/HomePage/HomePage";
+import HeadlineSectionOne from "./components/pages/HeadlineReport/SectionOne/SectionOne";
+import HeadlineSectionTwo from "./components/pages/HeadlineReport/SectionTwo/SectionTwo";
+import HeadlineSectionThree from "./components/pages/HeadlineReport/SectionThree/SectionThree";
 import MethodPage from "./components/pages/MethodPage/MethodPage";
 import TechPage from "./components/pages/TechPage/TechPage";
 import FxSummaryReport from "./components/pages/reports/FxSummaryReport";
@@ -18,8 +21,23 @@ const routes = [
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      // renders when there are no children
-      { index: true, element: <HeadlineReport /> },
+      // renders when there are no children - homepage
+      { index: true, element: <HomePage /> },
+
+      // Headline report structure
+      {
+        path: "/headline/sectionOne",
+        element: <HeadlineSectionOne />,
+      },
+      {
+        path: "/headline/sectionTwo",
+        element: <HeadlineSectionTwo />,
+      },
+      {
+        path: "/headline/sectionThree",
+        element: <HeadlineSectionThree />,
+      },
+
       {
         path: "/methodPage",
         element: <MethodPage />,

@@ -31,7 +31,7 @@ import { Main } from "./components/styledComponents/main";
 function App() {
   // this hook enables conditional formatting outside the Outlet based on which route is used.
   const location = useLocation();
-  const isHeadlineReport = location.pathname === "/";
+  const isHeadlineReport = location.pathname.startsWith("/headline"); // headline report pages
 
   const [open, setOpen] = useState(false);
 

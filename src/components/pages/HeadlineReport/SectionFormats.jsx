@@ -2,16 +2,23 @@
 // NO TYPOGRAPHY IN HERE, MUST USE HEADLINEREPORTITEMS TO ENSURE CONSISTENCY
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
-import Box from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
+import theme from "../../../theme";
 
 // subcomponents
 import ScrollTriggeredSection from "../../composites/ScrollTriggeredSection";
-// import ScrollTriggeredSection from "./ScrollTriggeredSection";
+
 import {
   PrimaryParagraphText,
   HeadlineReportPaperFrame,
+  TextBoxFrame,
   PrimaryParagraphHeader,
+  SecondaryHighlightText,
 } from "../../primitives/headlineReportItems";
+
+import { CompositeLinkPrimaryNoUnderline } from "../../styledComponents/links";
 
 /**
  * Section format components to enable multiple instances of typical types of
@@ -29,10 +36,7 @@ export const SimpleTextSection = ({ headerText = null, textArray }) => {
    */
   return (
     <Container maxWidth="lg">
-      <ScrollTriggeredSection
-        backupBackgroundColor="light"
-        transitionDuration={0.5}
-      >
+      <ScrollTriggeredSection transitionDuration={0.5}>
         {/* Simple text, no formatting, PARAGRAPH SPACING */}
         <Grid container size={12} spacing={3}>
           {headerText && (
@@ -53,20 +57,29 @@ export const SimpleTextSection = ({ headerText = null, textArray }) => {
 export const WideTwoColumnSection = ({
   leftSection,
   rightSection,
-  padding,
+  padding = 1,
 }) => {
   /**
+   * THIS ONLY TAKES USED SPACE CURRENTLY, I NEED TO ENSURE IT TAKES
+   * THE FULL WIDTH AVAILABLE TO THE TOP CONTAINER.
    * Two grids side by side with xl max width.
    * Contents of each section centred.
    * Switching to top and bottom for md and below
    */
   return (
     <Container maxWidth="xl">
-      <ScrollTriggeredSection
-        backupBackgroundColor="light"
-        transitionDuration={0.5}
-      >
-        <Grid container size={12} px={padding}>
+      <ScrollTriggeredSection transitionDuration={0.5}>
+        <Grid
+          container
+          size={12}
+          px={padding}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <HeadlineReportPaperFrame>
             <Grid
               container
@@ -83,7 +96,9 @@ export const WideTwoColumnSection = ({
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Grid container>
-                  <Grid sx={{ textAlign: "center" }}>{leftSection}</Grid>
+                  <Box sx={{ textAlign: "center", width: "100%" }}>
+                    {leftSection}
+                  </Box>
                 </Grid>
               </Grid>
 
@@ -92,7 +107,9 @@ export const WideTwoColumnSection = ({
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Grid container>
-                  <Grid sx={{ textAlign: "center" }}>{rightSection}</Grid>
+                  <Box sx={{ textAlign: "center", width: "100%" }}>
+                    {rightSection}
+                  </Box>
                 </Grid>
               </Grid>
             </Grid>
@@ -111,10 +128,7 @@ export const CentredBoxSection = ({ children, padding }) => {
    */
   return (
     <Container maxWidth="lg">
-      <ScrollTriggeredSection
-        backupBackgroundColor="light"
-        transitionDuration={0.5}
-      >
+      <ScrollTriggeredSection transitionDuration={0.5}>
         <Grid
           container
           size={12}
@@ -125,7 +139,7 @@ export const CentredBoxSection = ({ children, padding }) => {
             alignItems: "center",
           }}
         >
-          <HeadlineReportPaperFrame>{children}</HeadlineReportPaperFrame>
+          <TextBoxFrame>{children}</TextBoxFrame>
         </Grid>
       </ScrollTriggeredSection>
     </Container>
@@ -141,10 +155,7 @@ export const CentredSectionNoPaper = ({ children, padding }) => {
    */
   return (
     <Container maxWidth="lg">
-      <ScrollTriggeredSection
-        backupBackgroundColor="light"
-        transitionDuration={0.5}
-      >
+      <ScrollTriggeredSection transitionDuration={0.5}>
         <Grid
           container
           size={12}

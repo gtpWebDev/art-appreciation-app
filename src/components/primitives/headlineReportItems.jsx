@@ -2,10 +2,59 @@
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 
 import theme from "../../theme";
 
+// left border line, no rounded corners - preference
 export const HeadlineReportPaperFrame = ({ children }) => {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        borderLeft: "6px solid #410818",
+        borderBottom: "1px solid #410818",
+        padding: 5,
+        borderRadius: 0,
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.05)",
+      }}
+    >
+      {children}
+    </Paper>
+  );
+};
+
+// Frame for box containing mainly formatted text.
+// Outer frame with left and bottom borders
+// Inner frame subtle paper effect
+export const TextBoxFrame = ({ children }) => {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        backgroundColor: "rgba(255,255,255,0.3)", // opaque background
+        borderLeft: "6px solid #410818",
+        // borderBottom: "2px solid #410818",
+        padding: 2,
+        borderRadius: 0,
+      }}
+    >
+      <Paper
+        elevation={0}
+        sx={{
+          padding: 5,
+          borderRadius: 0,
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        {children}
+      </Paper>
+    </Paper>
+  );
+};
+
+// original paper style
+export const HeadlineReportPaperFrameStd = ({ children }) => {
   return (
     <Paper
       elevation={5}
@@ -15,6 +64,41 @@ export const HeadlineReportPaperFrame = ({ children }) => {
         margin: 1,
       }}
     >
+      {children}
+    </Paper>
+  );
+};
+
+// nicer elevated paper effect
+export const HeadlineReportPaperFrame2 = ({ children }) => {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        backgroundColor: "rgb(252,252,252)",
+        borderRadius: 3,
+        boxShadow: "10px 10px 20px #b3b3b3, -10px -10px 20px #ffffff",
+        padding: 3,
+      }}
+    >
+      {children}
+    </Paper>
+  );
+};
+
+// left border, minimal shadow, nice
+export const HeadlineReportPaperFrame3 = ({ children }) => {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        border: "1px solid #e0e0e0",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.05)",
+        borderRadius: 4,
+        padding: 5,
+      }}
+    >
+      {" "}
       {children}
     </Paper>
   );

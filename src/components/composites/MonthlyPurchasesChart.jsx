@@ -144,7 +144,6 @@ const Chart = ({ data, height = 250 }) => {
             stack: "purchases",
           },
         ]}
-        // width={500}
         height={height}
         margin={{ left: 70, top: 40 }} // margin around chart drawing area
         colors={["#4caf50", "#dc004e"]}

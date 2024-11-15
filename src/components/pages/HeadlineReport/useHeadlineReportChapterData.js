@@ -12,9 +12,7 @@ import HeadlineReportCacheContext from "./HeadlineReportCacheContext";
  * being requested. If it does, it uses that. If it doesn't, it collects the
  * data from the backend endpoint.
  *
- * - It is basically a once only collection of the endpoint data, used because
- *   the sections are removed from the dom using usInView as they leave the
- *   viewport.
+ * - It is basically a once only collection of the endpoint data.
  */
 
 const useHeadlineReportChapterData = (endpoint) => {

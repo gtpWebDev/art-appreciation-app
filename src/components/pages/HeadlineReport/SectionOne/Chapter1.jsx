@@ -7,14 +7,6 @@ import { SimpleTextSection } from "../SectionFormats";
 // hooks
 import useHeadlineReportChapterData from "../useHeadlineReportChapterData";
 
-/**
- * Chapters are added to and removed from the DOM based on whether they are close
- * to the viewport.
- * They therefore use a custom hook to either collect data from the API, or from the
- * report context if it has already been collected when it was previously on the
- * viewport.
- */
-
 const Chapter1 = ({ chapterEndpoint }) => {
   // get chapter data from API, or from report context if already collected
   const { data, loading, error } =

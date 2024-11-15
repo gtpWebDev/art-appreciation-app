@@ -10,6 +10,19 @@ import theme from "../../theme";
  * both material UI and react-router-dom
  */
 
+// this is most simple, applies a link to children with no styling
+export const CompositeLink = ({ children, linkLoc }) => {
+  return (
+    <StyledLinkNoUnderline
+      component={RouterLink}
+      to={linkLoc}
+      color={theme.palette.primary.contrastText}
+    >
+      {children}
+    </StyledLinkNoUnderline>
+  );
+};
+
 export const CompositeLinkPrimaryUnderline = ({ children, linkLoc }) => {
   return (
     <StyledLinkUnderline
@@ -62,14 +75,6 @@ export const CompositeLinkContrastNoUnderline = ({ children, linkLoc }) => {
   );
 };
 
-// const StyledLink = styled(Link)(({ color }) => ({
-//   color: color,
-//   textDecoration: "none",
-//   "&:hover": {
-//     textDecoration: "underline",
-//   },
-// }));
-
 const StyledLinkNoUnderline = styled(Link)(({ color }) => ({
   color: color,
   textDecoration: "none",
@@ -82,24 +87,3 @@ const StyledLinkUnderline = styled(Link)(({ color }) => ({
   color: color,
   textDecoration: "underline",
 }));
-
-// export const CompositeLinkUnderline = ({ children, linkLoc }) => {
-//   return (
-//     <StyledLinkUnderline
-//       component={RouterLink}
-//       to={linkLoc}
-//       target="_blank"
-//       rel="noopener noreferrer"
-//     >
-//       {children}
-//     </StyledLinkUnderline>
-//   );
-// };
-
-// export const CompositeLinkNoUnderline = ({ children, linkLoc }) => {
-//   return (
-//     <StyledLinkNoUnderline component={RouterLink} to={linkLoc}>
-//       {children}
-//     </StyledLinkNoUnderline>
-//   );
-// };

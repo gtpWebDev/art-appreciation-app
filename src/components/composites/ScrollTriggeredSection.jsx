@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 // To be extracted to composites
 const ScrollTriggeredSection = ({
   children,
-  visThreshold = 0.3,
+  visThreshold = 0.3, // Fraction of component within viewport to trigger visibility
   transitionDuration = 1.5, // in seconds
 }) => {
   // used only if no image provided, defaults to dark

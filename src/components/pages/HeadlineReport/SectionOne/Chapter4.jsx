@@ -11,6 +11,7 @@ import {
   CentredBoxSection,
   CentredSectionNoPaper,
 } from "../SectionFormats";
+import { NextSectionLink } from "../NextSectionLink";
 import MonthlyPurchasesChart from "../../../composites/MonthlyPurchasesChart";
 
 // constants
@@ -45,7 +46,7 @@ const Chapter4 = ({ chapterEndpoint }) => {
 
   if (loading) return <LoadingCircle />;
 
-  // SECTION SPACING, FURTHER PADDING AHEAD OF NEXT CHAPTER
+  // Section spacing here (there is further padding ahead of next chapter)
   return (
     <Grid container rowSpacing={10}>
       <Grid size={12}>
@@ -70,6 +71,10 @@ const Chapter4 = ({ chapterEndpoint }) => {
 
       <Grid size={12}>
         <MonthlySalesChart />
+      </Grid>
+
+      <Grid size={12}>
+        <Chapter4_NextSectionLink />
       </Grid>
     </Grid>
   );
@@ -248,6 +253,15 @@ const MonthlySalesChart = () => {
         </Grid>
       </Grid>
     </CentredBoxSection>
+  );
+};
+
+const Chapter4_NextSectionLink = () => {
+  return (
+    <NextSectionLink
+      location="/headline/sectionTwo"
+      title="Measuring the love of art"
+    />
   );
 };
 

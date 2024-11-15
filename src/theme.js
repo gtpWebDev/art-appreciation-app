@@ -13,7 +13,7 @@ import { createTheme, responsiveFontSizes } from "@mui/material/styles";
  */
 
 const secondaryMain = "#a03e4d";
-const backgroundDefault = "#ffffff"; // "#f7f4f4";
+const backgroundDefault = "rgb(242,242,242)"; //"#f8edee"; // "#f7f4f4";
 
 // Create a theme instance.
 let theme = createTheme({
@@ -27,7 +27,7 @@ let theme = createTheme({
     },
     background: {
       default: backgroundDefault,
-      paper: "#ffffff",
+      paper: "rgb(248,248,248)", // "#ffffff",
     },
     text: {
       primary: "rgba(57,5,5,0.87)",

@@ -14,26 +14,13 @@ import {
 } from "../SectionFormats";
 import { CompositeLinkPrimaryUnderline } from "../../../styledComponents/links";
 
-import {
-  SecondaryHighlightList,
-  PrimarySubText,
-} from "../../../primitives/headlineReportItems";
+import { SecondaryHighlightList } from "../../../primitives/headlineReportItems";
 
 // constants
 import { ARTWORK_INFO } from "../../../../constants/imageConstants";
 
-/**
- * Chapters are added to and removed from the DOM based on whether they are close
- * to the viewport.
- * They therefore use a custom hook to either collect data from the API, or from the
- * report context if it has already been collected when it was previously on the
- * viewport.
- */
-
 const Chapter5 = ({ chapterEndpoint }) => {
-  // get chapter data from API, or from report context if already collected
-  // const { data, loading, error } =
-  //   useHeadlineReportChapterData(chapterEndpoint);
+  // note, this chapter has no data requirement
 
   return (
     <Grid container rowSpacing={10}>

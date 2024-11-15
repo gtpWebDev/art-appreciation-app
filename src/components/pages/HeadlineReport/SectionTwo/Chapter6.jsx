@@ -1,9 +1,10 @@
 // material UI
-import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
 
 // subcomponents
 import { SimpleTextSection, CentredBoxSection } from "../SectionFormats";
+import { NextSectionLink } from "../NextSectionLink";
 import { CompositeLinkPrimaryUnderline } from "../../../styledComponents/links";
 import {
   PrimarySubheader,
@@ -14,14 +15,6 @@ import OwnerExamplesTab from "./OwnerExamplesTabs";
 
 // hooks
 import useHeadlineReportChapterData from "../useHeadlineReportChapterData";
-
-/**
- * Chapters are added to and removed from the DOM based on whether they are close
- * to the viewport.
- * They therefore use a custom hook to either collect data from the API, or from the
- * report context if it has already been collected when it was previously on the
- * viewport.
- */
 
 const Chapter6 = ({ chapterEndpoint }) => {
   // get chapter data from API, or from report context if already collected
@@ -39,9 +32,14 @@ const Chapter6 = ({ chapterEndpoint }) => {
       <Grid size={12}>
         <Chapter6_Text1 />
       </Grid>
-
       <Grid size={12}>
         <OwnerExamplesTab />
+      </Grid>
+      <Grid size={12}>
+        <Chapter6_WrapUpText />
+      </Grid>
+      <Grid size={12}>
+        <Chapter6_NextSectionLink />
       </Grid>
     </Grid>
   );
@@ -131,6 +129,27 @@ const Chapter6_Text1 = () => {
   ];
 
   return <SimpleTextSection textArray={textArray} />;
+};
+
+const Chapter6_WrapUpText = () => {
+  // Simple text paragraph structure
+  const textArray = [
+    <>
+      Hopefully by now you're comfortable with what the measures represent. It's
+      time to start looking at the results.
+    </>,
+  ];
+
+  return <SimpleTextSection textArray={textArray} />;
+};
+
+const Chapter6_NextSectionLink = () => {
+  return (
+    <NextSectionLink
+      location="/headline/sectionThree"
+      title="Top line results"
+    />
+  );
 };
 
 export default Chapter6;
